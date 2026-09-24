@@ -187,7 +187,7 @@ def run_one(dest, algorithm, run_id):
 	# read algorithm used by kernel
 	used_algorithm = data.getsockopt(socket.IPPROTO_TCP, TCP_CONGESTION, 16).split(b"\0")[0].decode()
 
-	print(f"[+] Running test {run_id} on {dest['IP/HOST']}:{get_first_port(dest['PORT'])} with algorithm {used_algorithm}")
+	print(f"[*] Running test {run_id} on {dest['IP/HOST']}:{get_first_port(dest['PORT'])} with algorithm {used_algorithm}")
 	# setup iperf3 client
 	iperfclient = iperf3jank.Iperf3Client(
 		control_sock=control,
@@ -233,7 +233,7 @@ def run_tests(destinations, algorithms):
 			try:
 				run = run_one(destinations[i], algorithm, run_id)
 				dest_runs.append(run)
-				print(f"[+] {run_id} {run['destination']} [{run['algorithm']}]: sent at {run['avg_send_rate_mbps']:.1f} Mbps average, {len(run['rows'])} TCP samples")
+				print(f"[+] {run_id} {run['destination']} [{run['algorithm']}]: {run['avg_send_rate_mbps']:.1f} Mbps average, {len(run['rows'])} TCP samples")
 			# stop trying this server and move on if exceptions happen
 			except iperf3jank.Iperf3ServerBusyException:
 				print(f"[x] Server {destinations[i]['IP/HOST']}:{get_first_port(destinations[i]['PORT'])} is busy. Retrying another server...")
