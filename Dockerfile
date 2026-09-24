@@ -18,7 +18,7 @@ COPY src ./src
 RUN useradd app && mkdir -p results && chown app:app results
 USER app
 
-# main.py writes to results/ by default; mount a host directory here to keep the output
+# main.py writes to results/ by default and we make this a volume
 VOLUME ["/usr/local/app/results"]
 
 ENTRYPOINT ["python3", "src/main.py"]
