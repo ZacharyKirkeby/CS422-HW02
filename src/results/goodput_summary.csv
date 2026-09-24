@@ -1,5 +1,0 @@
-run_id,destination,algorithm,min_mbps,median_mbps,mean_mbps,p95_mbps
-1,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic,0.0,0.0,10.71,42.65
-2,"speedtest.masnet.ec:5201 (Santa Ana, EC)",reno,0.0,0.0,14.93,42.62
-3,"84.17.57.129:5201 (Hong Kong, HK)",cubic,0.0,0.0,15.53,42.72
-4,"84.17.57.129:5201 (Hong Kong, HK)",reno,0.0,0.0,14.96,43.02
