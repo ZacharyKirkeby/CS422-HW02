@@ -10,6 +10,8 @@ import time
 import iperf3jank
 import socket
 import argparse
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 
 parser = argparse.ArgumentParser(description="Iperf3 client")
 parser.add_argument("--f", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "listed_iperf3_servers.json"), help="File of iperf servers in json format")
@@ -322,7 +324,7 @@ def print_summary(summary):
 		print(f"[+] {s['destination']:<50} {s['algorithm']:<10} {s['min_mbps']:>8.2f} {s['median_mbps']:>8.2f} {s['mean_mbps']:>8.2f} {s['p95_mbps']:>8.2f}")
 
 def make_plots(runs, summary, out_dir):
-	# TODO: pdf plot generation here pls
+	# pdf plot generation
 	# runs is a list that contains dicts with the following fields (one per completed test):
 	#   run["run_id"], run["destination"], run["algorithm"], run["avg_send_rate_mbps"]
 	#   run["rows"] is a list of dicts (one per TCP_INFO sample) with keys in CSV_COLUMNS
@@ -335,7 +337,62 @@ def make_plots(runs, summary, out_dir):
 	#   cwnd, goodput = get_pairs(run, "snd_cwnd_pkts", "goodput_bps")
 	# summary is a list of dicts with run_id, destination, algorithm, min_mbps, median_mbps, mean_mbps, and p95_mbps
 	# out_dir is where i put the csvs so pdfs should go there too
-	pass
+	with PdfPages(out_dir + "/multiple_plots.pdf") as pdf:
+		#TODO: make the scales consistant between different algorithms
+		#which will require running it multiple times to figure out what's reasonable
+		times, cwnd = get_series(runs, "snd_cwnd_pkts")
+		plt.plot(times, cwnd)
+		plt.xlabel("Time")
+		plt.ylabel("snd_cwnd")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		times, rtt = get_series(runs, "srtt_us")
+		plt.plot(times, rtt)
+		plt.xlabel("Time")
+		plt.ylabel("RTTs")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		times, retrans = get_series(runs, "interval_retrans_pkts")
+		plt.plot(times, retrans)
+		plt.xlabel("Time")
+		plt.ylabel("Loss Signal")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		times, goodput = get_series(runs, "goodput_bps")
+		plt.plot(times, goodput)
+		plt.xlabel("Time")
+		plt.ylabel("Throughput")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		plt.scatter(goodput, cwnd)
+		plt.xlabel("Goodput")
+		plt.ylabel("snd_cwnd")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		plt.scatter(goodput, rtt)
+		plt.xlabel("goodput")
+		plt.ylabel("RTTs")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+
+		plt.scatter(goodput, retrans)
+		plt.xlabel("goodput")
+		plt.ylabel("retransmissions")
+		pdf.savefig()
+		plt.close()
+		#plt.show()
+	
 
 def main():
 	if not sys.platform.startswith("linux"):
