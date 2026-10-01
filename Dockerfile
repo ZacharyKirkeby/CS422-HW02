@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ubuntu:24.04
+FROM ubuntu:24.04
 WORKDIR /usr/local/app
 
 # Ubuntu 24.04 blocks pip installs into the system Python so we use venv instead
