@@ -337,56 +337,73 @@ def make_plots(runs, summary, out_dir):
 	#   cwnd, goodput = get_pairs(run, "snd_cwnd_pkts", "goodput_bps")
 	# summary is a list of dicts with run_id, destination, algorithm, min_mbps, median_mbps, mean_mbps, and p95_mbps
 	# out_dir is where i put the csvs so pdfs should go there too
+	cwnds = []
+	alltimes = []
+	rtts = []
+	retranses = []
+	goodputs = []
+	for run in runs:
+		times, cwnd = get_series(run, "snd_cwnd_pkts")
+		alltimes = alltimes + times
+		cwnds = cwnds + cwnd
+		times, rtt = get_series(run, "srtt_us")
+		rtts = rtts + rtt
+		times, retrans = get_series(run, "interval_retrans_pkts")
+		retranses = retranses + retrans
+		times, goodput = get_series(run, "goodput_bps")
+		goodputs = goodputs + goodput
+
+
 	with PdfPages(out_dir + "/multiple_plots.pdf") as pdf:
 		#TODO: make the scales consistant between different algorithms
 		#which will require running it multiple times to figure out what's reasonable
-		times, cwnd = get_series(runs, "snd_cwnd_pkts")
-		plt.plot(times, cwnd)
+		#times, cwnd = get_series(runs, "snd_cwnd_pkts")
+		plt.plot(alltimes, cwnds)
 		plt.xlabel("Time")
 		plt.ylabel("snd_cwnd")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		times, rtt = get_series(runs, "srtt_us")
-		plt.plot(times, rtt)
+		#times, rtt = get_series(runs, "srtt_us")
+		plt.plot(alltimes, rtts)
 		plt.xlabel("Time")
 		plt.ylabel("RTTs")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		times, retrans = get_series(runs, "interval_retrans_pkts")
-		plt.plot(times, retrans)
+		#times, retrans = get_series(runs, "interval_retrans_pkts")
+		plt.plot(alltimes, retranses)
 		plt.xlabel("Time")
 		plt.ylabel("Loss Signal")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		times, goodput = get_series(runs, "goodput_bps")
-		plt.plot(times, goodput)
+		#times, goodput = get_series(runs, "goodput_bps")
+		plt.plot(alltimes, goodputs)
 		plt.xlabel("Time")
 		plt.ylabel("Throughput")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		plt.scatter(goodput, cwnd)
+		plt.scatter(goodputs, cwnds)
 		plt.xlabel("Goodput")
 		plt.ylabel("snd_cwnd")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		plt.scatter(goodput, rtt)
+		plt.scatter(goodputs, rtts)
 		plt.xlabel("goodput")
 		plt.ylabel("RTTs")
 		pdf.savefig()
 		plt.close()
 		#plt.show()
 
-		plt.scatter(goodput, retrans)
+		plt.scatter(goodputs, retranses)
 		plt.xlabel("goodput")
 		plt.ylabel("retransmissions")
 		pdf.savefig()
