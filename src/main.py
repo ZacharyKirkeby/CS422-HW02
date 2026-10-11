@@ -255,26 +255,35 @@ def run_tests(destinations, algorithms):
 			break
 	return runs
 
+
 # output stuff
 
-def get_series(run, column):
+def get_series(run, column, algorithm):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
+    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
+    
     times = []
     values = []
     for row in run["rows"]:
-        if row[column] != "":
+        row_is_valid_algo = (algorithm == None or row["algorithm"] == algorithm)
+        
+        if row_is_valid_algo and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
 
 # same as above, but we skip the first sample
 # this is critical for interval related graphing functionalities to not break!
-def get_series_ignore_first_sample(run, column):
+def get_series_ignore_first_sample(run, column, algorithm):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
+    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
+    
     times = []
     values = []
     for row in run["rows"]:
-        if row["sample"] > 0 and row[column] != "":
+        row_is_valid_algo = (algorithm == None or row["algorithm"] == algorithm)
+        
+        if row_is_valid_algo and row["sample"] > 0 and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
@@ -301,7 +310,7 @@ def make_summary(runs):
     for run in runs:
         values = []
         # get the goodput values for this run
-        times, goodput = get_series(run, "goodput_bps")
+        times, goodput = get_series(run, "goodput_bps", None)
         for bps in goodput:
             
             if isinstance(bps, str) == True:
@@ -343,7 +352,7 @@ def print_summary(summary):
 	for s in summary:
 		print(f"[+] {s['destination']:<50} {s['algorithm']:<10} {s['min_mbps']:>8.2f} {s['median_mbps']:>8.2f} {s['mean_mbps']:>8.2f} {s['p95_mbps']:>8.2f}")
 
-def make_plots(runs, summary, out_dir):
+def make_plots(runs, summary, algorithms, out_dir):
 	# pdf plot generation
 	# runs is a list that contains dicts with the following fields (one per completed test):
 	#   run["run_id"], run["destination"], run["algorithm"], run["avg_send_rate_mbps"]
@@ -357,118 +366,125 @@ def make_plots(runs, summary, out_dir):
 	#   cwnd, goodput = get_pairs(run, "snd_cwnd_pkts", "goodput_bps")
 	# summary is a list of dicts with run_id, destination, algorithm, min_mbps, median_mbps, mean_mbps, and p95_mbps
 	# out_dir is where i put the csvs so pdfs should go there too
-    cwnds = []
-    alltimes = []
-    rtts = []
-    retranses = []
-    goodputs = []
+    #
+    # 'algorithms': list of algorithms ran; need to graph separately for each algo, so must track ran algorithms.
     
-    # 'alltimes' but we ignore the very first sample of each run.
-    # this is s.t. our collected runtime data (i.e. goodput) can be graphed properly, as these values (interval_s, goodput_bps, interval_retrans_pkts, interval_retrans_ratio) are only calculated AFTER the very first sample.
-    # and therefore the output array count could differ than non-interval array counts, which is not ideal.
-    alltimes_interval = []
-    cwnds_interval = []
-    rtts_interval = []
-    
-    for run in runs:
-        times, cwnd = get_series(run, "snd_cwnd_pkts")
-        alltimes = alltimes + times
-        cwnds = cwnds + cwnd
-        _, rtt = get_series(run, "srtt_us")
-        rtts = rtts + rtt
-        _, retrans = get_series(run, "interval_retrans_pkts")
-        retranses = retranses + retrans
-        _, goodput = get_series(run, "goodput_bps")
-        goodputs = goodputs + goodput
+    for algorithm in algorithms:
+        cwnds = []
+        alltimes = []
+        rtts = []
+        retranses = []
+        goodputs = []
         
-        # fill arrays of interval-related stuff, where we always ignore the first sample
-        newtimes, newcwnd = get_series_ignore_first_sample(run, "snd_cwnd_pkts")
-        alltimes_interval = alltimes_interval + newtimes
-        cwnds_interval = cwnds_interval + newcwnd
+        # 'alltimes' but we ignore the very first sample of each run.
+        # this is s.t. our collected runtime data (i.e. goodput) can be graphed properly, as these values (interval_s, goodput_bps, interval_retrans_pkts, interval_retrans_ratio) are only calculated AFTER the very first sample.
+        # and therefore the output array count could differ than non-interval array counts, which is not ideal.
+        alltimes_interval = []
+        cwnds_interval = []
+        rtts_interval = []
         
-        _, newrtt = get_series_ignore_first_sample(run, "srtt_us")
-        rtts_interval = rtts_interval + newrtt
+        for run in runs:
+            times, cwnd = get_series(run, "snd_cwnd_pkts", algorithm)
+            alltimes = alltimes + times
+            cwnds = cwnds + cwnd
+            _, rtt = get_series(run, "srtt_us", algorithm)
+            rtts = rtts + rtt
+            _, retrans = get_series(run, "interval_retrans_pkts", algorithm)
+            retranses = retranses + retrans
+            _, goodput = get_series(run, "goodput_bps", algorithm)
+            goodputs = goodputs + goodput
+            
+            # fill arrays of interval-related stuff, where we always ignore the first sample
+            newtimes, newcwnd = get_series_ignore_first_sample(run, "snd_cwnd_pkts", algorithm)
+            alltimes_interval = alltimes_interval + newtimes
+            cwnds_interval = cwnds_interval + newcwnd
+            
+            _, newrtt = get_series_ignore_first_sample(run, "srtt_us", algorithm)
+            rtts_interval = rtts_interval + newrtt
 
-    """
-    # DEBUGGING:
-    def debugPrint(name, arr):
-        print("[+] " + str(name) + ", len: " + str(len(arr)) + ", values: " + str(arr));
-    
-    print()
-    debugPrint('cwnds', cwnds);
-    debugPrint('alltimes', alltimes);
-    debugPrint('rtts', rtts);
-    debugPrint('retranses', retranses);
-    debugPrint('goodputs', goodputs);
-    debugPrint('alltimes_interval', alltimes_interval);
-    debugPrint('cwnds_interval', cwnds_interval);
-    debugPrint('rtts_interval', rtts_interval);
-    print()
-    """
-    
-    # Variable Name to Value Meaning Translation:
-    
-    # alltimes =    Time elapsed, in seconds
-    # rtts =        Smoothed RTTs, in microseconds
-    # cwnd =        Congestion window size, in packets
-    # retranses =   Retransmitted packet count this interval, integer
-    # goodputs =    Goodput, in bytes per second
+        """
+        # DEBUGGING:
+        def debugPrint(name, arr):
+            print("[+] " + str(name) + ", len: " + str(len(arr)) + ", values: " + str(arr));
+        
+        print()
+        debugPrint('cwnds', cwnds);
+        debugPrint('alltimes', alltimes);
+        debugPrint('rtts', rtts);
+        debugPrint('retranses', retranses);
+        debugPrint('goodputs', goodputs);
+        debugPrint('alltimes_interval', alltimes_interval);
+        debugPrint('cwnds_interval', cwnds_interval);
+        debugPrint('rtts_interval', rtts_interval);
+        print()
+        """
+        
+        # Variable Name to Value Meaning Translation:
+        
+        # alltimes =    Time elapsed, in seconds
+        # rtts =        Smoothed RTTs, in microseconds
+        # cwnd =        Congestion window size, in packets
+        # retranses =   Retransmitted packet count this interval, integer
+        # goodputs =    Goodput, in bytes per second
+        
+        # dynamically generate graph name depending on input algorithm type
+        output_file_name = "/multiple_plots_" + str(algorithm) + ".pdf"
 
-    with PdfPages(out_dir + "/multiple_plots.pdf") as pdf:
-        #TODO: make the scales consistant between different algorithms
-        #which will require running it multiple times to figure out what's reasonable
-        #times, cwnd = get_series(runs, "snd_cwnd_pkts")
-        plt.plot(alltimes, cwnds)
-        plt.xlabel("Time Elapsed")
-        plt.ylabel("Congestion Window Size (packets)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+        with PdfPages(out_dir + output_file_name) as pdf:
+            #TODO: make the scales consistant between different algorithms
+            #which will require running it multiple times to figure out what's reasonable
+            #times, cwnd = get_series(runs, "snd_cwnd_pkts")
+            plt.plot(alltimes, cwnds)
+            plt.xlabel("Time Elapsed")
+            plt.ylabel("Congestion Window Size (packets)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        #times, rtt = get_series(runs, "srtt_us")
-        plt.plot(alltimes, rtts)
-        plt.xlabel("Time Elapsed (seconds)")
-        plt.ylabel("Smoothed RTTs (microseconds)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            #times, rtt = get_series(runs, "srtt_us")
+            plt.plot(alltimes, rtts)
+            plt.xlabel("Time Elapsed (seconds)")
+            plt.ylabel("Smoothed RTTs (microseconds)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        plt.plot(alltimes_interval, retranses)
-        plt.xlabel("Time Elapsed (seconds)")
-        plt.ylabel("Retransmitted Packet Count (in last time interval)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            plt.plot(alltimes_interval, retranses)
+            plt.xlabel("Time Elapsed (seconds)")
+            plt.ylabel("Retransmitted Packet Count (in last time interval)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        #times, goodput = get_series(runs, "goodput_bps")
-        plt.plot(alltimes_interval, goodputs)
-        plt.xlabel("Time Elapsed (seconds)")
-        plt.ylabel("Goodput (bps)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            #times, goodput = get_series(runs, "goodput_bps")
+            plt.plot(alltimes_interval, goodputs)
+            plt.xlabel("Time Elapsed (seconds)")
+            plt.ylabel("Goodput (bps)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        plt.scatter(goodputs, cwnds_interval)
-        plt.xlabel("Goodput (bps)")
-        plt.ylabel("Congestion Window Size (packets)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            plt.scatter(goodputs, cwnds_interval)
+            plt.xlabel("Goodput (bps)")
+            plt.ylabel("Congestion Window Size (packets)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        #'value' must be an instance of str or bytes, not an int
-        plt.scatter(goodputs, rtts_interval)
-        plt.xlabel("Goodput (bps)")
-        plt.ylabel("Smoothed RTTs (microseconds)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            #'value' must be an instance of str or bytes, not an int
+            plt.scatter(goodputs, rtts_interval)
+            plt.xlabel("Goodput (bps)")
+            plt.ylabel("Smoothed RTTs (microseconds)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 
-        plt.scatter(goodputs, retranses)
-        plt.xlabel("Goodput (bps)")
-        plt.ylabel("Retransmitted Packet Count (in last time interval)")
-        pdf.savefig()
-        plt.close()
-        #plt.show()
+            plt.scatter(goodputs, retranses)
+            plt.xlabel("Goodput (bps)")
+            plt.ylabel("Retransmitted Packet Count (in last time interval)")
+            pdf.savefig()
+            plt.close()
+            #plt.show()
 	
 
 def main():
@@ -495,7 +511,7 @@ def main():
 	summary = make_summary(runs)
 	write_summary(summary, os.path.join(args.out_dir, "goodput_summary.csv"))
 	print_summary(summary)
-	make_plots(runs, summary, args.out_dir)
+	make_plots(runs, summary, algorithms, args.out_dir)
 	print(f"\n[+] Done! Wrote TCP samples and summary to '{args.out_dir}'/")
 
 if __name__ == "__main__":
