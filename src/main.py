@@ -352,16 +352,21 @@ def print_summary(summary):
 	for s in summary:
 		print(f"[+] {s['destination']:<50} {s['algorithm']:<10} {s['min_mbps']:>8.2f} {s['median_mbps']:>8.2f} {s['mean_mbps']:>8.2f} {s['p95_mbps']:>8.2f}")
 
+
+
 def make_plots(runs, summary, algorithms, out_dir):
-	# pdf plot generation
+	# pdf plot generation:
+    #
 	# runs is a list that contains dicts with the following fields (one per completed test):
 	#   run["run_id"], run["destination"], run["algorithm"], run["avg_send_rate_mbps"]
 	#   run["rows"] is a list of dicts (one per TCP_INFO sample) with keys in CSV_COLUMNS
-	# get_series(run, column) returns tuple of (times, values) lists for any column in CSV_COLUMNS, e.g.
-	#   times, goodput = get_series(run, "goodput_bps")
-	#   times, cwnd = get_series(run, "snd_cwnd_pkts")
-	#   times, rtt = get_series(run, "srtt_us")
+    #
+	# get_series(run, column, algorithm) returns tuple of (times, values) lists for any column that matches the input algorithm in CSV_COLUMNS, e.g.
+	#   times, goodput = get_series(run, "goodput_bps", algorithm)
+	#   times, cwnd = get_series(run, "snd_cwnd_pkts", algorithm)
+	#   times, rtt = get_series(run, "srtt_us", algorithm)
 	#   times, retrans = get_series(run, "interval_retrans_pkts")
+    #
 	# get_pairs(run, x_column, y_column) returns tuple of (xs, ys) lists, e.g.
 	#   cwnd, goodput = get_pairs(run, "snd_cwnd_pkts", "goodput_bps")
 	# summary is a list of dicts with run_id, destination, algorithm, min_mbps, median_mbps, mean_mbps, and p95_mbps
@@ -369,6 +374,64 @@ def make_plots(runs, summary, algorithms, out_dir):
     #
     # 'algorithms': list of algorithms ran; need to graph separately for each algo, so must track ran algorithms.
     
+    #print(summary)
+    # TODO: reference 'summary':
+    # ex:
+    """
+    [{'run_id': 1, 'destination': 'speedtest.iway.ch:5201 (Zürich, CH)', 'algorithm': 'cubic', 'min_mbps': 0.0, 'median_mbps': 5.38, 'mean_mbps': 6.0, 'p95_mbps': 12.14}, {'run_id': 2, 'destination': 'speedtest.iway.ch:5201 (Zürich, CH)', 'algorithm': 'reno', 'min_mbps': 0.57, 'median_mbps': 3.8, 'mean_mbps': 4.72, 'p95_mbps': 9.95}, {'run_id': 3, 'destination': 'speedtest.iway.ch:5201 (Zürich, CH)', 'algorithm': 'bbr', 'min_mbps': 0.0, 'median_mbps': 3.19, 'mean_mbps': 6.7, 'p95_mbps': 19.43}]
+    """
+    # to get run count, corresponding algorithm and such
+    
+    ######################################################################################
+    # PREPROCESSING STEP: map algorithms to their respective run IDs, run data and stuff #
+    ######################################################################################
+    
+    # dictionary mapping algorithms to associated run ID, run data
+    algo_to_runs = {}
+    for a in algorithms:
+        # we use dictionaries here instead of objects because I don't want to shove a class initialization into this already chunky file
+        algo_to_runs[a] = {}
+        algo_to_runs[a]['runIds'] = []
+        
+        # from below:
+        # each run will need to individually track:
+        # 'alltimes', 'cwnds', 'rtts', 'alltimes_interval', 'retranses', and 'goodputs'
+        # for run-specific plotting to be handled nicely.
+        
+        #algo_to_runs[a]['alltimes'] = []
+        #algo_to_runs[a]['alltimes_interval'] = []
+        #algo_to_runs[a]['cwnds'] = []
+        #algo_to_runs[a]['rtts'] = []
+        #algo_to_runs[a]['retranses'] = []
+        #algo_to_runs[a]['goodputs'] = []
+        
+        
+        # this should map (runID, dictionary holding arrays corresponding to 'alltimes', 'cwnds', etc)
+        algo_to_runs[a]['runData'] = {}
+        
+    for run_data in summary:
+        run_id = run_data["run_id"];
+        run_algo = run_data['algorithm'];
+        algo_to_runs[run_algo]['runIds'].append(run_id);
+    
+    # last pre-processing step: define dictionary pairing runs with their run-specific data
+    for a in algorithms:
+        for runId in algo_to_runs[a]['runIds']:
+            algo_to_runs[a]['runData'][runId] = {}
+            
+            algo_to_runs[a]['runData'][runId]['alltimes'] = []
+            algo_to_runs[a]['runData'][runId]['alltimes_interval'] = []
+            algo_to_runs[a]['runData'][runId]['cwnds'] = []
+            algo_to_runs[a]['runData'][runId]['rtts'] = []
+            algo_to_runs[a]['runData'][runId]['retranses'] = []
+            algo_to_runs[a]['runData'][runId]['goodputs'] = []
+    
+    print("\nalgo to runs: " + str(algo_to_runs));
+    
+    
+    ##############################
+    # actual plotting stuff time #
+    ##############################
     for algorithm in algorithms:
         cwnds = []
         alltimes = []
@@ -401,6 +464,13 @@ def make_plots(runs, summary, algorithms, out_dir):
             
             _, newrtt = get_series_ignore_first_sample(run, "srtt_us", algorithm)
             rtts_interval = rtts_interval + newrtt
+            
+            
+            # TODO: add data to run-specific data stuff
+            run_id = run['run_id'];
+            if run_id in algo_to_runs[algorithm]['runIds']:
+                print("found run " + str(run_id) + " in algo: " + algorithm)
+                # TODO: save run-specific data into appropriate arrays and stuff
 
         """
         # DEBUGGING:
@@ -433,8 +503,19 @@ def make_plots(runs, summary, algorithms, out_dir):
         with PdfPages(out_dir + output_file_name) as pdf:
             #TODO: make the scales consistant between different algorithms
             #which will require running it multiple times to figure out what's reasonable
+            
+            # TODO: plot lines according to run # for the same algorithm and whatnot.
+            # which means that for each algorithm, we need to:
+            # - find the associated run numbers that use this algorithm
+            # - for each run number, save the appropriate 'alltimes', 'cwnds', 'rtts', 'alltimes_interval', 'retranses', and 'goodputs' values
+            # - for each run number, plot these lines accordingly
+            #
+            # for scatterplots, do we need to care about identifying each run or do we just consider them all as a collective?
+            
+            # LINE GRAPHS
+            
             #times, cwnd = get_series(runs, "snd_cwnd_pkts")
-            plt.plot(alltimes, cwnds)
+            plt.plot(alltimes, cwnds, label = "line 1")
             plt.xlabel("Time Elapsed")
             plt.ylabel("Congestion Window Size (packets)")
             pdf.savefig()
@@ -463,6 +544,9 @@ def make_plots(runs, summary, algorithms, out_dir):
             pdf.savefig()
             plt.close()
             #plt.show()
+            
+            
+            # SCATTERPLOTS
 
             plt.scatter(goodputs, cwnds_interval)
             plt.xlabel("Goodput (bps)")
