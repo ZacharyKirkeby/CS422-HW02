@@ -22,6 +22,8 @@ parser.add_argument("--num-tests", type=int, default=10, help="Number of tests t
 parser.add_argument("--interval", type=float, default=0.2, help="Goodput and TCP stats sampling interval in seconds")
 parser.add_argument("--algorithms", default="", help="Comma-separated TCP congestion control algorithms to test, e.g. cubic,bbr (default: system default)")
 parser.add_argument("--out-dir", default="results", help="Directory for the TCP stats log and summary table")
+parser.add_argument("--repetitions", type=int, default=3, help="Number of repeated CUBIC/Reno/BBR comparison runs for Q3")
+parser.add_argument("--max-attempts", type=int, default=30, help="Maximum servers to try while finding successful destinations")
 
 args = parser.parse_args()
 
@@ -178,18 +180,44 @@ def check_algorithms(algorithms):
 
 # run tests
 
-def run_one(dest, algorithm, run_id):
+def run_one(
+	dest,
+	algorithm,
+	run_id,
+	phase="default",
+	repetition=1,
+	test_order=1
+):
 	host = dest["IP/HOST"]
 	port = get_first_port(dest["PORT"])
+
 	control = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 	# select congestion control algorithm
 	if algorithm:
-		data.setsockopt(socket.IPPROTO_TCP, TCP_CONGESTION, algorithm.encode())
-	# read algorithm used by kernel
-	used_algorithm = data.getsockopt(socket.IPPROTO_TCP, TCP_CONGESTION, 16).split(b"\0")[0].decode()
+		data.setsockopt(
+			socket.IPPROTO_TCP,
+			TCP_CONGESTION,
+			algorithm.encode()
+		)
 
-	print(f"[*] Running test {run_id} on {dest['IP/HOST']}:{get_first_port(dest['PORT'])} with algorithm {used_algorithm}")
+	# read algorithm configured by kernel
+	used_algorithm = (
+		data.getsockopt(
+			socket.IPPROTO_TCP,
+			TCP_CONGESTION,
+			16
+		)
+		.split(b"\0")[0]
+		.decode()
+	)
+
+	print(
+		f"[*] Running test {run_id} on "
+		f"{host}:{port} with algorithm {used_algorithm}"
+	)
+
 	# setup iperf3 client
 	iperfclient = iperf3jank.Iperf3Client(
 		control_sock=control,
@@ -200,11 +228,17 @@ def run_one(dest, algorithm, run_id):
 		block_size=args.block_size,
 		timeout=args.timeout,
 	)
+
 	samples = []
+
 	# use threads to get TCP stats while test running
 	stop = threading.Event()
-	sampler = threading.Thread(target=sample_tcp_stats, args=(iperfclient, samples, stop))
+	sampler = threading.Thread(
+		target=sample_tcp_stats,
+		args=(iperfclient, samples, stop)
+	)
 	sampler.start()
+
 	try:
 		iperfclient.run()
 	finally:
@@ -212,15 +246,34 @@ def run_one(dest, algorithm, run_id):
 		sampler.join()
 
 	# process and collate for output
-	destination = f"{host}:{port} ({dest['SITE']}, {dest['COUNTRY']})"
-	mbps = iperfclient.bytes_sent * 8 / args.duration / 1e6
+	destination = (
+		f"{host}:{port} "
+		f"({dest['SITE']}, {dest['COUNTRY']})"
+	)
+
+	mbps = (
+		iperfclient.bytes_sent
+		* 8
+		/ args.duration
+		/ 1e6
+	)
+
 	run = {
 		"run_id": run_id,
+		"phase": phase,
+		"repetition": repetition,
+		"test_order": test_order,
 		"destination": destination,
 		"algorithm": used_algorithm,
 		"avg_send_rate_mbps": mbps,
-		"rows": make_rows(run_id, destination, used_algorithm, samples),
+		"rows": make_rows(
+			run_id,
+			destination,
+			used_algorithm,
+			samples
+		),
 	}
+
 	return run
 
 def run_tests(destinations, algorithms):
@@ -255,6 +308,164 @@ def run_tests(destinations, algorithms):
 			break
 	return runs
 
+def run_default_tests(destinations):
+	runs = []
+	selected_destinations = []
+	failures = []
+	attempts = 0
+	run_id = 1
+
+	print("\n[+] Q1/Q2: running default congestion control tests")
+
+	for dest in destinations:
+		if len(selected_destinations) >= args.num_tests:
+			break
+
+		if attempts >= args.max_attempts:
+			break
+
+		attempts += 1
+
+		try:
+			# None = do not set TCP_CONGESTION; use system default
+			run = run_one(
+				dest,
+				None,
+				run_id,
+				phase="default",
+				repetition=1,
+				test_order=1
+			)
+
+			runs.append(run)
+			selected_destinations.append(dest)
+
+			print(
+				f"[+] {run_id} {run['destination']} "
+				f"[{run['algorithm']}]: "
+				f"{run['avg_send_rate_mbps']:.1f} Mbps average, "
+				f"{len(run['rows'])} TCP samples"
+			)
+
+			run_id += 1
+
+		except iperf3jank.Iperf3ServerBusyException as e:
+			destination = (
+				f"{dest['IP/HOST']}:"
+				f"{get_first_port(dest['PORT'])}"
+			)
+
+			print(
+				f"[x] Server {destination} is busy. "
+				f"Trying replacement..."
+			)
+
+			failures.append({
+				"destination": destination,
+				"reason": str(e),
+			})
+
+		except iperf3jank.Iperf3Exception as e:
+			destination = (
+				f"{dest['IP/HOST']}:"
+				f"{get_first_port(dest['PORT'])}"
+			)
+
+			print(
+				f"[x] Error testing {destination}: {e}. "
+				f"Trying replacement..."
+			)
+
+			failures.append({
+				"destination": destination,
+				"reason": str(e),
+			})
+
+	if len(selected_destinations) < args.num_tests:
+		print(
+			f"[x] Requested {args.num_tests} destinations but only "
+			f"{len(selected_destinations)} succeeded after "
+			f"{attempts} attempts."
+		)
+
+	return runs, selected_destinations, failures
+
+def run_comparison_tests(
+	selected_destinations,
+	algorithms,
+	start_run_id
+):
+	runs = []
+	failures = []
+
+	run_id = start_run_id
+
+	print(
+		f"\n[+] Q3: comparing "
+		f"{', '.join(algorithms)}"
+	)
+
+	for repetition in range(1, args.repetitions + 1):
+		# rotate algorithm order so one algorithm does not always run first
+		offset = (
+			(repetition - 1)
+			% len(algorithms)
+		)
+
+		ordered_algorithms = (
+			algorithms[offset:]
+			+ algorithms[:offset]
+		)
+
+		print(
+			f"\n[+] Repetition {repetition}/"
+			f"{args.repetitions}: "
+			f"{' -> '.join(ordered_algorithms)}"
+		)
+
+		for dest in selected_destinations:
+			for test_order, algorithm in enumerate(
+				ordered_algorithms,
+				start=1
+			):
+				try:
+					run = run_one(
+						dest,
+						algorithm,
+						run_id,
+						phase="comparison",
+						repetition=repetition,
+						test_order=test_order
+					)
+					runs.append(run)
+					print(
+						f"[+] {run_id} "
+						f"{run['destination']} "
+						f"[{run['algorithm']}] "
+						f"rep={repetition} "
+						f"order={test_order}: "
+						f"{run['avg_send_rate_mbps']:.1f} Mbps"
+					)
+					run_id += 1
+				except iperf3jank.Iperf3Exception as e:
+					destination = (
+						f"{dest['IP/HOST']}:"
+						f"{get_first_port(dest['PORT'])}"
+					)
+
+					print(
+						f"[x] Q3 failed: "
+						f"{destination} [{algorithm}]: {e}"
+					)
+					failures.append({
+						"destination": destination,
+						"algorithm": algorithm,
+						"repetition": repetition,
+						"reason": str(e),
+					})
+				time.sleep(1)
+
+	return runs, failures
 
 # output stuff
 
@@ -617,23 +828,95 @@ def main():
 	for a in args.algorithms.split(","):
 		if a.strip() != "":
 			algorithms.append(a.strip())
-	check_algorithms(algorithms)
-	if len(algorithms) == 0:
-		algorithms = [None]  # None = system default
+	if len(algorithms) > 0:
+		check_algorithms(algorithms)
 
 	destinations = load_destinations(args.f)
 	random.shuffle(destinations)
-	runs = run_tests(destinations, algorithms)
-	if len(runs) == 0:
-		print("No tests completed.")
+
+	# Q1 / Q2 shit
+	default_runs, selected_destinations, default_failures = (
+		run_default_tests(destinations)
+	)
+
+	if len(default_runs) == 0:
+		print("No default congestion-control tests completed.")
 		return
 
-	os.makedirs(args.out_dir, exist_ok=True)
-	write_samples(runs, os.path.join(args.out_dir, "tcp_samples.csv"))
-	summary = make_summary(runs)
-	write_summary(summary, os.path.join(args.out_dir, "goodput_summary.csv"))
-	print_summary(summary)
-	make_plots(runs, summary, algorithms, args.out_dir)
+	representative_destination = default_runs[0]["destination"]
+
+	print(
+		f"\n[+] Representative destination: "
+		f"{representative_destination}"
+	)
+
+	# Q3 - all 3 algos
+	comparison_runs = []
+	comparison_failures = []
+
+	if len(algorithms) > 0:
+		comparison_runs, comparison_failures = (
+			run_comparison_tests(
+				selected_destinations,
+				algorithms,
+				len(default_runs) + 1
+			)
+		)
+	else:
+		print(
+			"\n[+] No --algorithms provided; "
+			"skipping Q3 comparison tests."
+		)
+
+
+
+
+		os.makedirs(args.out_dir, exist_ok=True)
+
+	# combine the two phases only for raw output
+	runs = default_runs + comparison_runs
+
+	write_samples(
+		runs,
+		os.path.join(
+			args.out_dir,
+			"tcp_samples.csv"
+		)
+	)
+
+	# Q1/Q2 summary
+	default_summary = make_summary(default_runs)
+
+	write_summary(
+		default_summary,
+		os.path.join(
+			args.out_dir,
+			"default_goodput_summary.csv"
+		)
+	)
+
+	print("\n[+] Q1/Q2 default congestion control")
+	print_summary(default_summary)
+
+	# Q3 summary
+	if len(comparison_runs) > 0:
+		comparison_summary = make_summary(comparison_runs)
+
+		write_summary(
+			comparison_summary,
+			os.path.join(
+				args.out_dir,
+				"comparison_goodput_summary.csv"
+			)
+		)
+
+		print("\n[+] Q3 congestion control comparison")
+		print_summary(comparison_summary)
+
+	print(
+		f"\n[+] Done! Wrote results to "
+		f"'{args.out_dir}'/"
+	)
 	print(f"\n[+] Done! Wrote TCP samples and summary to '{args.out_dir}'/")
 
 if __name__ == "__main__":
