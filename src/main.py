@@ -281,48 +281,77 @@ def run_default_tests(destinations):
 	attempts = 0
 	run_id = 1
 
-	print("\n[+] Q1/Q2: running default congestion control tests")
+	print("\n Q1/Q2: running default congestion control tests")
 	for dest in destinations:
 		if len(selected_destinations) >= args.num_tests:
 			break
-		if attempts >= args.max_attempts:
+		if attempts >= args.num_tests * 3:
 			break
 		attempts += 1
-		try:
-			# None = do not set TCP_CONGESTION; use system default
-			run = run_one(dest, None, run_id, phase="default", repetition=1, test_order=1)
-			runs.append(run)
-			selected_destinations.append(dest)
-			print(
-				f"[+] {run_id} {run['destination']} "
-				f"[{run['algorithm']}]: "
-				f"{run['avg_send_rate_mbps']:.1f} Mbps average, "
-				f"{len(run['rows'])} TCP samples"
-			)
-			run_id += 1
+		busy_attempts = 0
+		while True:
+			try:
+				run = run_one(dest, None, run_id, phase="default", repetition=1, test_order=1)
+				runs.append(run)
+				selected_destinations.append(dest)
 
-		except iperf3jank.Iperf3ServerBusyException as e:
-			destination = (
-				f"{dest['IP/HOST']}:"
-				f"{get_first_port(dest['PORT'])}"
-			)
+				print(
+					f"[+] {run_id} {run['destination']} "
+					f"[{run['algorithm']}]: "
+					f"{run['avg_send_rate_mbps']:.1f} Mbps average, "
+					f"{len(run['rows'])} TCP samples"
+				)
 
-			print(
-				f"[x] Server {destination} is busy. "
-				f"Trying replacement..."
-			)
-			failures.append({"destination": destination, "reason": str(e),})
-		except iperf3jank.Iperf3Exception as e:
-			destination = (
-				f"{dest['IP/HOST']}:"
-				f"{get_first_port(dest['PORT'])}"
-			)
+				run_id += 1
+				break
 
-			print(
-				f"[x] Error testing {destination}: {e}. "
-				f"Trying replacement..."
-			)
-			failures.append({"destination": destination, "reason": str(e),})
+			except iperf3jank.Iperf3ServerBusyException as e:
+				busy_attempts += 1
+
+				if busy_attempts > 3:
+					destination = (
+						f"{dest['IP/HOST']}:"
+						f"{get_first_port(dest['PORT'])}"
+					)
+
+					print(
+						f"[x] Server {destination} remained busy "
+						f"after 3 retries. Trying replacement..."
+					)
+
+					failures.append({
+						"destination": destination,
+						"reason": str(e),
+					})
+
+					break
+
+				print(
+					f"[x] Server {dest['IP/HOST']}:"
+					f"{get_first_port(dest['PORT'])} is busy. "
+					f"Retrying in 2 seconds "
+					f"({busy_attempts}/3)..."
+				)
+
+				time.sleep(2)
+
+			except iperf3jank.Iperf3Exception as e:
+				destination = (
+					f"{dest['IP/HOST']}:"
+					f"{get_first_port(dest['PORT'])}"
+				)
+
+				print(
+					f"[x] Error testing {destination}: {e}. "
+					f"Trying replacement..."
+				)
+
+				failures.append({
+					"destination": destination,
+					"reason": str(e),
+				})
+
+				break
 
 	if len(selected_destinations) < args.num_tests:
 		print(
@@ -330,18 +359,35 @@ def run_default_tests(destinations):
 			f"{len(selected_destinations)} succeeded after "
 			f"{attempts} attempts."
 		)
+
 	return runs, selected_destinations, failures
 
-def run_comparison_tests(selected_destinations, algorithms, start_run_id):
+def run_comparison_tests(
+	selected_destinations,
+	algorithms,
+	start_run_id
+):
 	runs = []
 	failures = []
 	run_id = start_run_id
-	print(f"\n[+] Q3: comparing " f"{', '.join(algorithms)}")
+
+	print(
+		f"\n[+] Q3: comparing "
+		f"{', '.join(algorithms)}"
+	)
 
 	for repetition in range(1, args.repetitions + 1):
 		# rotate algorithm order so one algorithm does not always run first
-		offset = ((repetition - 1) % len(algorithms))
-		ordered_algorithms = (algorithms[offset:] + algorithms[:offset])
+		offset = (
+			(repetition - 1)
+			% len(algorithms)
+		)
+
+		ordered_algorithms = (
+			algorithms[offset:]
+			+ algorithms[:offset]
+		)
+
 		print(
 			f"\n[+] Repetition {repetition}/"
 			f"{args.repetitions}: "
@@ -349,37 +395,95 @@ def run_comparison_tests(selected_destinations, algorithms, start_run_id):
 		)
 
 		for dest in selected_destinations:
-			for test_order, algorithm in enumerate(ordered_algorithms, start=1):
-				try:
-					run = run_one(dest, algorithm, run_id, phase="comparison", 
-					              repetition=repetition, test_order=test_order)
-					runs.append(run)
-					print(
-						f"[+] {run_id} "
-						f"{run['destination']} "
-						f"[{run['algorithm']}] "
-						f"rep={repetition} "
-						f"order={test_order}: "
-						f"{run['avg_send_rate_mbps']:.1f} Mbps"
-					)
-					run_id += 1
-				except iperf3jank.Iperf3Exception as e:
-					destination = (
-						f"{dest['IP/HOST']}:"
-						f"{get_first_port(dest['PORT'])}"
-					)
+			for test_order, algorithm in enumerate(
+				ordered_algorithms,
+				start=1
+			):
+				busy_attempts = 0
 
-					print(
-						f"[x] Q3 failed: "
-						f"{destination} [{algorithm}]: {e}"
-					)
-					failures.append({
-						"destination": destination,
-						"algorithm": algorithm,
-						"repetition": repetition,
-						"reason": str(e),
-					})
+				while True:
+					try:
+						run = run_one(
+							dest,
+							algorithm,
+							run_id,
+							phase="comparison",
+							repetition=repetition,
+							test_order=test_order
+						)
+
+						runs.append(run)
+
+						print(
+							f"[+] {run_id} "
+							f"{run['destination']} "
+							f"[{run['algorithm']}] "
+							f"rep={repetition} "
+							f"order={test_order}: "
+							f"{run['avg_send_rate_mbps']:.1f} Mbps"
+						)
+
+						run_id += 1
+						break
+
+					except iperf3jank.Iperf3ServerBusyException as e:
+						busy_attempts += 1
+
+						if busy_attempts > 3:
+							destination = (
+								f"{dest['IP/HOST']}:"
+								f"{get_first_port(dest['PORT'])}"
+							)
+
+							print(
+								f"[x] Q3 server {destination} "
+								f"[{algorithm}] remained busy "
+								f"after 3 retries."
+							)
+
+							failures.append({
+								"destination": destination,
+								"algorithm": algorithm,
+								"repetition": repetition,
+								"reason": str(e),
+							})
+
+							break
+
+						print(
+							f"[x] Server {dest['IP/HOST']}:"
+							f"{get_first_port(dest['PORT'])} "
+							f"[{algorithm}] is busy. "
+							f"Retrying in 2 seconds "
+							f"({busy_attempts}/3)..."
+						)
+
+						time.sleep(2)
+
+					except iperf3jank.Iperf3Exception as e:
+						destination = (
+							f"{dest['IP/HOST']}:"
+							f"{get_first_port(dest['PORT'])}"
+						)
+
+						print(
+							f"[x] Q3 failed: "
+							f"{destination} "
+							f"[{algorithm}]: {e}"
+						)
+
+						failures.append({
+							"destination": destination,
+							"algorithm": algorithm,
+							"repetition": repetition,
+							"reason": str(e),
+						})
+
+						break
+
+				# let public server/path settle before next test
 				time.sleep(1)
+
 	return runs, failures
 
 # output stuff
