@@ -583,8 +583,8 @@ def print_summary(summary):
 		print(f"[+] {s['destination']:<50} {s['algorithm']:<10} {s['min_mbps']:>8.2f} {s['median_mbps']:>8.2f} {s['mean_mbps']:>8.2f} {s['p95_mbps']:>8.2f}")
 
 
-# TODO: provide run limitations; ex run from [1, 3], [3, 12], etc
-def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
+# TODO: provide plot names
+def make_plots(runs, summary, algorithms, representative_destinations, file_name_base, out_dir):
 	# pdf plot generation:
     #
 	# runs is a list that contains dicts with the following fields (one per completed test):
@@ -609,7 +609,7 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
     # 'run_range': [inclusive start, exclusive end] of run data that we will consider
     
     
-    # TODO: revise graphing schema:
+    # revised graphing schema:
     # as per the assignment, "Use the same representative destination for all three algorithms, with clearly labeled curves or separate panels and consistent axis scales to facilitate comparison"
     # therefore, will need to actually graph everyone onto the same graph per destination
     # TODO: Zach will be responsible for updating polling s.t. there won't be any repeated (algo, destination) data if the connection was successful; so for now, make sure to run with 'repetitions = 1'!
@@ -634,13 +634,8 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         
     """
     
-    # TODO:
     # pre-processing should now create DS for each destination as described by above
-    # when actually graphing, then we need to create graphs per destination!
-    
-    ####################################################
-    # PREPROCESSING STEP: set up 'destination_data var #
-    ####################################################
+    # when actually graphing, then we need to create graphs on a per-destination basis!
     
     destination_data = {}
     for d in representative_destinations:
@@ -660,9 +655,12 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             destination_data[d][a]['rtts_interval'] = []
     
     
-    # given our runs and our range of usable run data, fill our 'destination_data' table as appropriate.
+    ###############################################################################################
+    # PREPROCESSING STEP: fill up 'destination_data' with per-algorithm data for each destination #
+    ###############################################################################################
     
     for run in runs:
+        """
         cwnds = []
         alltimes = []
         rtts = []
@@ -675,6 +673,7 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         alltimes_interval = []
         cwnds_interval = []
         rtts_interval = []
+        """
         
         
         # check if we should use this run
@@ -693,12 +692,21 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             times, cwnd = get_series(run, "snd_cwnd_pkts", None)
             #alltimes = alltimes + times
             #cwnds = cwnds + cwnd
+            
             _, rtt = get_series(run, "srtt_us", None)
             #rtts = rtts + rtt
+            # translate microseconds to milliseconds
+            for i in range(len(rtt)):
+                rtt[i] /= 1000
+            
             _, retrans = get_series(run, "interval_retrans_pkts", None)
             #retranses = retranses + retrans
+            
             _, goodput = get_series(run, "goodput_bps", None)
             #goodputs = goodputs + goodput
+            # translate bps to Kbps
+            for i in range(len(goodput)):
+                goodput[i] /= 1000
             
             # fill arrays of interval-related stuff, where we always ignore the first sample
             newtimes, newcwnd = get_series_ignore_first_sample(run, "snd_cwnd_pkts", None)
@@ -706,22 +714,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             #cwnds_interval = cwnds_interval + newcwnd
             
             _, newrtt = get_series_ignore_first_sample(run, "srtt_us", None)
+            # translate microseconds to milliseconds
+            for i in range(len(newrtt)):
+                newrtt[i] /= 1000
             #rtts_interval = rtts_interval + newrtt
-            
-            """
-            # add collected data to run-specific data structurs
-            run_id = run['run_id'];
-            if run_id in algo_to_runs[algorithm]['runIds']:
-                # print("found run " + str(run_id) + " in algo: " + algorithm)
-                # save run-specific data into appropriate arrays and stuff
-                
-                algo_to_runs[algorithm]['runData'][run_id]['alltimes'] = times
-                algo_to_runs[algorithm]['runData'][run_id]['alltimes_interval'] = newtimes
-                algo_to_runs[algorithm]['runData'][run_id]['cwnds'] = cwnd
-                algo_to_runs[algorithm]['runData'][run_id]['rtts'] = rtt
-                algo_to_runs[algorithm]['runData'][run_id]['retranses'] = retrans
-                algo_to_runs[algorithm]['runData'][run_id]['goodputs'] = goodput
-            """
             
             
             # now that we've gathered this data, add them to appropriate data structures
@@ -735,13 +731,25 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             destination_data[run_dest][run_algo]['cwnds_interval'] += newcwnd
             destination_data[run_dest][run_algo]['rtts_interval'] += newrtt
     
+    
+    
     ##############################
     # actual plotting stuff time #
     ##############################
     
-    # TODO: update to use 'per-destination' model!
-    #for algorithm in algorithms:
+    # label names
+    alltimes_label = "Time Elapsed (s)"
+    cwnd_label = "Congestion Window Size (packets)"
+    rtts_label = "Smoothed RTTs (ms)"
+    retranses_label = "Retransmitted Packets (in last time interval)"
+    goodput_label = "Goodput (Kbps)"
+    
+    # destination id tracker; to generate graph names as appropriate
+    destination_id = 0
+    
     for destination in representative_destinations:
+        destination_id += 1
+        """
         cwnds = []
         alltimes = []
         rtts = []
@@ -754,7 +762,7 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         alltimes_interval = []
         cwnds_interval = []
         rtts_interval = []
-        
+        """
         
         
         """
@@ -812,26 +820,20 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         # Variable Name to Value Meaning Translation:
         
         # alltimes =    Time elapsed, in seconds
-        # rtts =        Smoothed RTTs, in microseconds
+        # rtts =        Smoothed RTTs, in milliseconds
         # cwnd =        Congestion window size, in packets
         # retranses =   Retransmitted packet count this interval, integer
-        # goodputs =    Goodput, in bytes per second
+        # goodputs =    Goodput, in Kbps
         
-        # dynamically generate graph name depending on input algorithm type
-        output_file_name = "/multiple_plots_" + str(destination) + ".pdf"
+        # dynamically generate graph name
+        output_file_name = "/" + str(file_name_base) + "_" + str(destination_id) + ".pdf"
 
         with PdfPages(out_dir + output_file_name) as pdf:
-            #TODO: make the scales consistant between different algorithms
-            #which will require running it multiple times to figure out what's reasonable
+            # Scales are consistent between different algorithms because per destination, all the algos are graphed on the same plots.
             
-            # Plot lines according to run # for the same algorithm and whatnot.
-            # which means that for each algorithm, we need to:
-            # - find the associated run numbers that use this algorithm
-            # - for each run number, save the appropriate 'alltimes', 'cwnds', 'rtts', 'alltimes_interval', 'retranses', and 'goodputs' values
-            # - for each run number, plot these lines accordingly
-            #
-            # for scatterplots, do we need to care about identifying each run or do we just consider them all as a collective?
-            # - won't be doing any run-specific filtering for scatterplots; all the data will be collected and handled collectively.
+            # Plot each graph (line or scatter) for this specific destination.
+            # The data will be labeled/separated on a per-algorithm basis.
+            
             
             ###############
             # LINE GRAPHS #
@@ -842,9 +844,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.plot(data['alltimes'], data['cwnds'], label = "Algo " + str(algorithm))
-            plt.xlabel("Time Elapsed (seconds)")
-            plt.ylabel("Congestion Window Size (packets)")
+            plt.xlabel(alltimes_label)
+            plt.ylabel(cwnd_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -855,9 +858,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.plot(data['alltimes'], data['rtts'], label = "Algo " + str(algorithm))
-            plt.xlabel("Time Elapsed (seconds)")
-            plt.ylabel("Smoothed RTTs (microseconds)")
+            plt.xlabel(alltimes_label)
+            plt.ylabel(rtts_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -867,9 +871,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.plot(data['alltimes_interval'], data['retranses'], label = "Algo " + str(algorithm))
-            plt.xlabel("Time Elapsed (seconds)")
-            plt.ylabel("Retransmitted Packet Count (in last time interval)")
+            plt.xlabel(alltimes_label)
+            plt.ylabel(retranses_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -880,9 +885,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.plot(data['alltimes_interval'], data['goodputs'], label = "Algo " + str(algorithm))
-            plt.xlabel("Time Elapsed (seconds)")
-            plt.ylabel("Goodput (bps)")
+            plt.xlabel(alltimes_label)
+            plt.ylabel(goodput_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -897,9 +903,11 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.scatter(data['goodputs'], data['cwnds_interval'], label = "Algo " + str(algorithm))
-            plt.xlabel("Goodput (bps)")
-            plt.ylabel("Congestion Window Size (packets)")
-            plt.legend(plt.legend_elements(), title="Title")
+            plt.xlabel(goodput_label)
+            plt.ylabel(cwnd_label)
+            #plt.legend(plt.legend_elements(), title="Title")
+            plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -910,9 +918,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.scatter(data['goodputs'], data['rtts_interval'], label = "Algo " + str(algorithm))
-            plt.xlabel("Goodput (bps)")
-            plt.ylabel("Smoothed RTTs (microseconds)")
+            plt.xlabel(goodput_label)
+            plt.ylabel(rtts_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -922,9 +931,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             for algorithm in destination_data[destination]:
                 data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
                 plt.scatter(data['goodputs'], data['retranses'], label = "Algo " + str(algorithm))
-            plt.xlabel("Goodput (bps)")
-            plt.ylabel("Retransmitted Packet Count (in last time interval)")
+            plt.xlabel(goodput_label)
+            plt.ylabel(retranses_label)
             plt.legend()
+            plt.title("Destination: " + str(destination))
             pdf.savefig()
             plt.close()
             #plt.show()
@@ -991,6 +1001,14 @@ def main():
 		os.path.join(args.out_dir, "default_goodput_summary.csv"))
 	print("\n[+] Q1/Q2 default congestion control")
 	print_summary(default_summary)
+    
+	if len(default_runs) > 0:
+    	# plot base graphs
+		default_algo = [];
+		default_algo.append(default_runs[0]['algorithm'])
+		make_plots(default_runs, default_summary, default_algo, representative_destination, "representative_plots", args.out_dir)
+	else:
+		print("WARNING: No representative runs to graph.");
 
 	# Q3 summary
 	if len(comparison_runs) > 0:
@@ -1000,8 +1018,8 @@ def main():
 		print("\n[+] Q3 congestion control comparison")
 		print_summary(comparison_summary)
         
-		# TODO: test this some more
-		make_plots(comparison_runs, comparison_summary, algorithms, representative_destination, args.out_dir)
+		# plot comparison graphs
+		make_plots(comparison_runs, comparison_summary, algorithms, representative_destination, "comparison_plots", args.out_dir)
 
 	print(
 		f"\n[+] Done! Wrote results to "
