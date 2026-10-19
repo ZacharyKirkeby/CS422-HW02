@@ -488,32 +488,32 @@ def run_comparison_tests(
 
 # output stuff
 
-def get_series(run, column, destination):
+def get_series(run, column, algorithm):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
-    # only appends if row's destination matches this destination or not provided
+    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
     
     times = []
     values = []
     for row in run["rows"]:
-        row_is_valid_destination = (destination == None or row["destination"] == destination)
+        row_is_valid_algo = (algorithm == None or row["algorithm"] == algorithm)
         
-        if row_is_valid_destination and row[column] != "":
+        if row_is_valid_algo and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
 
 # same as above, but we skip the first sample
 # this is critical for interval related graphing functionalities to not break!
-def get_series_ignore_first_sample(run, column, destination):
+def get_series_ignore_first_sample(run, column, algorithm):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
-    # only appends if row's destination matches this destination or not provided
+    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
     
     times = []
     values = []
     for row in run["rows"]:
-        row_is_valid_destination = (destination == None or row["destination"] == destination)
+        row_is_algo = (algorithm == None or row["algorithm"] == algorithm)
         
-        if row_is_valid_destination and row["sample"] > 0 and row[column] != "":
+        if row_is_algo and row["sample"] > 0 and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
@@ -583,7 +583,7 @@ def print_summary(summary):
 		print(f"[+] {s['destination']:<50} {s['algorithm']:<10} {s['min_mbps']:>8.2f} {s['median_mbps']:>8.2f} {s['mean_mbps']:>8.2f} {s['p95_mbps']:>8.2f}")
 
 
-
+# TODO: provide run limitations; ex run from [1, 3], [3, 12], etc
 def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
 	# pdf plot generation:
     #
@@ -605,6 +605,8 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
     # 'algorithms': list of algorithms ran; need to graph separately for each algo, so must track ran algorithms.
     #
     # 'representative_destinations': should be a list of representative destinations for runs
+    #
+    # 'run_range': [inclusive start, exclusive end] of run data that we will consider
     
     
     # TODO: revise graphing schema:
@@ -636,6 +638,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
     # pre-processing should now create DS for each destination as described by above
     # when actually graphing, then we need to create graphs per destination!
     
+    ####################################################
+    # PREPROCESSING STEP: set up 'destination_data var #
+    ####################################################
+    
     destination_data = {}
     for d in representative_destinations:
         destination_data[d] = {}
@@ -643,76 +649,91 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         for a in algorithms:
             destination_data[d][a] = {}
             
-            destination_data[d][a]['alltimes'] = []
-            destination_data[d][a]['alltimes_interval'] = []
             destination_data[d][a]['cwnds'] = []
+            destination_data[d][a]['alltimes'] = []
             destination_data[d][a]['rtts'] = []
             destination_data[d][a]['retranses'] = []
             destination_data[d][a]['goodputs'] = []
             
+            destination_data[d][a]['alltimes_interval'] = []
             destination_data[d][a]['cwnds_interval'] = []
-            destination_data[d][a]['cwnds_interval'] = []
+            destination_data[d][a]['rtts_interval'] = []
     
-    ######################################################################################
-    # PREPROCESSING STEP: map algorithms to their respective run IDs, run data and stuff #
-    ######################################################################################
     
-    # note that I'm well aware that I (Ethen) could've architected the data structuring here much better, but
-    # just trying to get this functional quickly at the moment.
+    # given our runs and our range of usable run data, fill our 'destination_data' table as appropriate.
     
-    # dictionary mapping algorithms to associated run ID, run data
-    algo_to_runs = {}
-    for a in algorithms:
-        # we use dictionaries here instead of objects because I don't want to shove a class initialization into this already chunky file
-        algo_to_runs[a] = {}
-        algo_to_runs[a]['runIds'] = []
+    for run in runs:
+        cwnds = []
+        alltimes = []
+        rtts = []
+        retranses = []
+        goodputs = []
         
-        # this should map (runID, dictionary holding arrays corresponding to 'alltimes', 'cwnds', etc)
-        algo_to_runs[a]['runData'] = {}
+        # 'alltimes' but we ignore the very first sample of each run.
+        # this is s.t. our collected runtime data (i.e. goodput) can be graphed properly, as these values (interval_s, goodput_bps, interval_retrans_pkts, interval_retrans_ratio) are only calculated AFTER the very first sample.
+        # and therefore the output array count could differ than non-interval array counts, which is not ideal.
+        alltimes_interval = []
+        cwnds_interval = []
+        rtts_interval = []
         
-    for run_data in summary:
-        run_id = run_data["run_id"];
-        run_algo = run_data['algorithm'];
-        algo_to_runs[run_algo]['runIds'].append(run_id);
-    
-    # last pre-processing step: define dictionary pairing runs with their run-specific data
-    for a in algorithms:
-        for runId in algo_to_runs[a]['runIds']:
-            algo_to_runs[a]['runData'][runId] = {}
+        
+        # check if we should use this run
+        #if run['run_id'] in range(run_range[0], run_range[1]):
+        if 1 == 1:
             
-            algo_to_runs[a]['runData'][runId]['alltimes'] = []
-            algo_to_runs[a]['runData'][runId]['alltimes_interval'] = []
-            algo_to_runs[a]['runData'][runId]['cwnds'] = []
-            algo_to_runs[a]['runData'][runId]['rtts'] = []
-            algo_to_runs[a]['runData'][runId]['retranses'] = []
-            algo_to_runs[a]['runData'][runId]['goodputs'] = []
-    
-    """
-    print("\nalgo to runs: " + str(algo_to_runs));
-    # data structure visualization (for future reference if need be)
-    
-    algo_to_runs: {
-        runIds: [0, 1, 5, ...],
-        runData: {
-            0 : {
-                alltimes = [],
-                alltimes_interval = [],
-                cwnds = [],
-                rtts = [],
-                retranses = [],
-                goodputs = []
-            },
-            1 : {
-                (...)
-            },
-            5 : {
-                (...)
-            },
-            (...)
-        }
-    }
-    """
-    
+            # determine the destination of this run
+            run_dest = run['destination']
+            
+            # determine the algo
+            run_algo = run['algorithm']
+            
+            
+            # now, collect data associated with this run
+            
+            times, cwnd = get_series(run, "snd_cwnd_pkts", None)
+            #alltimes = alltimes + times
+            #cwnds = cwnds + cwnd
+            _, rtt = get_series(run, "srtt_us", None)
+            #rtts = rtts + rtt
+            _, retrans = get_series(run, "interval_retrans_pkts", None)
+            #retranses = retranses + retrans
+            _, goodput = get_series(run, "goodput_bps", None)
+            #goodputs = goodputs + goodput
+            
+            # fill arrays of interval-related stuff, where we always ignore the first sample
+            newtimes, newcwnd = get_series_ignore_first_sample(run, "snd_cwnd_pkts", None)
+            #alltimes_interval = alltimes_interval + newtimes
+            #cwnds_interval = cwnds_interval + newcwnd
+            
+            _, newrtt = get_series_ignore_first_sample(run, "srtt_us", None)
+            #rtts_interval = rtts_interval + newrtt
+            
+            """
+            # add collected data to run-specific data structurs
+            run_id = run['run_id'];
+            if run_id in algo_to_runs[algorithm]['runIds']:
+                # print("found run " + str(run_id) + " in algo: " + algorithm)
+                # save run-specific data into appropriate arrays and stuff
+                
+                algo_to_runs[algorithm]['runData'][run_id]['alltimes'] = times
+                algo_to_runs[algorithm]['runData'][run_id]['alltimes_interval'] = newtimes
+                algo_to_runs[algorithm]['runData'][run_id]['cwnds'] = cwnd
+                algo_to_runs[algorithm]['runData'][run_id]['rtts'] = rtt
+                algo_to_runs[algorithm]['runData'][run_id]['retranses'] = retrans
+                algo_to_runs[algorithm]['runData'][run_id]['goodputs'] = goodput
+            """
+            
+            
+            # now that we've gathered this data, add them to appropriate data structures
+            destination_data[run_dest][run_algo]['cwnds'] += cwnd
+            destination_data[run_dest][run_algo]['alltimes'] += times
+            destination_data[run_dest][run_algo]['rtts'] += rtt
+            destination_data[run_dest][run_algo]['retranses'] += retrans
+            destination_data[run_dest][run_algo]['goodputs'] += goodput
+            
+            destination_data[run_dest][run_algo]['alltimes_interval'] += newtimes
+            destination_data[run_dest][run_algo]['cwnds_interval'] += newcwnd
+            destination_data[run_dest][run_algo]['rtts_interval'] += newrtt
     
     ##############################
     # actual plotting stuff time #
@@ -734,15 +755,18 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
         cwnds_interval = []
         rtts_interval = []
         
+        
+        
+        """
         for run in runs:
-            times, cwnd = get_series(run, "snd_cwnd_pkts", algorithm)
+            times, cwnd = get_series(run, "snd_cwnd_pkts", destination)
             alltimes = alltimes + times
             cwnds = cwnds + cwnd
-            _, rtt = get_series(run, "srtt_us", algorithm)
+            _, rtt = get_series(run, "srtt_us", destination)
             rtts = rtts + rtt
-            _, retrans = get_series(run, "interval_retrans_pkts", algorithm)
+            _, retrans = get_series(run, "interval_retrans_pkts", destination)
             retranses = retranses + retrans
-            _, goodput = get_series(run, "goodput_bps", algorithm)
+            _, goodput = get_series(run, "goodput_bps", destination)
             goodputs = goodputs + goodput
             
             # fill arrays of interval-related stuff, where we always ignore the first sample
@@ -766,6 +790,7 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
                 algo_to_runs[algorithm]['runData'][run_id]['rtts'] = rtt
                 algo_to_runs[algorithm]['runData'][run_id]['retranses'] = retrans
                 algo_to_runs[algorithm]['runData'][run_id]['goodputs'] = goodput
+        """
         
         """
         # DEBUGGING:
@@ -813,23 +838,23 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             ###############
             
             #times, cwnd = get_series(runs, "snd_cwnd_pkts")
-            # plot data per run
-            #for run_id in algo_to_runs[algorithm]['runIds']:
-            #    data = algo_to_runs[algorithm]['runData'][run_id];
-            #    plt.plot(data['alltimes'], data['cwnds'], label = "Run " + str(run_id))
-            plt.xlabel("Time Elapsed")
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.plot(data['alltimes'], data['cwnds'], label = "Algo " + str(algorithm))
+            plt.xlabel("Time Elapsed (seconds)")
             plt.ylabel("Congestion Window Size (packets)")
             plt.legend()
             pdf.savefig()
             plt.close()
             #plt.show()
-
+        
             #times, rtt = get_series(runs, "srtt_us")
             #plt.plot(alltimes, rtts)
-            # plot data per run
-            #for run_id in algo_to_runs[algorithm]['runIds']:
-            #    data = algo_to_runs[algorithm]['runData'][run_id];
-            #    plt.plot(data['alltimes'], data['rtts'], label = "Run " + str(run_id))
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.plot(data['alltimes'], data['rtts'], label = "Algo " + str(algorithm))
             plt.xlabel("Time Elapsed (seconds)")
             plt.ylabel("Smoothed RTTs (microseconds)")
             plt.legend()
@@ -838,10 +863,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             #plt.show()
 
             #plt.plot(alltimes_interval, retranses)
-            # plot data per run
-            for run_id in algo_to_runs[algorithm]['runIds']:
-                data = algo_to_runs[algorithm]['runData'][run_id];
-                plt.plot(data['alltimes_interval'], data['retranses'], label = "Run " + str(run_id))
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.plot(data['alltimes_interval'], data['retranses'], label = "Algo " + str(algorithm))
             plt.xlabel("Time Elapsed (seconds)")
             plt.ylabel("Retransmitted Packet Count (in last time interval)")
             plt.legend()
@@ -851,10 +876,10 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
 
             #times, goodput = get_series(runs, "goodput_bps")
             #plt.plot(alltimes_interval, goodputs)
-            # plot data per run
-            for run_id in algo_to_runs[algorithm]['runIds']:
-                data = algo_to_runs[algorithm]['runData'][run_id];
-                plt.plot(data['alltimes_interval'], data['goodputs'], label = "Run " + str(run_id))
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.plot(data['alltimes_interval'], data['goodputs'], label = "Algo " + str(algorithm))
             plt.xlabel("Time Elapsed (seconds)")
             plt.ylabel("Goodput (bps)")
             plt.legend()
@@ -867,27 +892,43 @@ def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
             # SCATTERPLOTS #
             ################
 
-            plt.scatter(goodputs, cwnds_interval)
+            #plt.scatter(goodputs, cwnds_interval)
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.scatter(data['goodputs'], data['cwnds_interval'], label = "Algo " + str(algorithm))
             plt.xlabel("Goodput (bps)")
             plt.ylabel("Congestion Window Size (packets)")
+            plt.legend(plt.legend_elements(), title="Title")
             pdf.savefig()
             plt.close()
             #plt.show()
 
             #'value' must be an instance of str or bytes, not an int
-            plt.scatter(goodputs, rtts_interval)
+            #plt.scatter(goodputs, rtts_interval)
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.scatter(data['goodputs'], data['rtts_interval'], label = "Algo " + str(algorithm))
             plt.xlabel("Goodput (bps)")
             plt.ylabel("Smoothed RTTs (microseconds)")
+            plt.legend()
             pdf.savefig()
             plt.close()
             #plt.show()
 
-            plt.scatter(goodputs, retranses)
+            #plt.scatter(goodputs, retranses)
+            # plot data per algo for this destination
+            for algorithm in destination_data[destination]:
+                data = destination_data[destination][algorithm]    #algo_to_runs[algorithm]['runData'][run_id];
+                plt.scatter(data['goodputs'], data['retranses'], label = "Algo " + str(algorithm))
             plt.xlabel("Goodput (bps)")
             plt.ylabel("Retransmitted Packet Count (in last time interval)")
+            plt.legend()
             pdf.savefig()
             plt.close()
             #plt.show()
+        
 	
 
 def main():
@@ -922,6 +963,8 @@ def main():
 		f"\n[+] Representative destination(s): "
 		f"{representative_destination}"
 	)
+    
+    
 
 	# Q3 - all 3 algos
 	comparison_runs = []
@@ -957,8 +1000,8 @@ def main():
 		print("\n[+] Q3 congestion control comparison")
 		print_summary(comparison_summary)
         
-        # TODO: test this some more
-        #make_plots(runs, summary, algorithms, representative_destination, args.out_dir)
+		# TODO: test this some more
+		make_plots(comparison_runs, comparison_summary, algorithms, representative_destination, args.out_dir)
 
 	print(
 		f"\n[+] Done! Wrote results to "
