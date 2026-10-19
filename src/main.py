@@ -488,32 +488,32 @@ def run_comparison_tests(
 
 # output stuff
 
-def get_series(run, column, algorithm):
+def get_series(run, column, destination):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
-    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
+    # only appends if row's destination matches this destination or not provided
     
     times = []
     values = []
     for row in run["rows"]:
-        row_is_valid_algo = (algorithm == None or row["algorithm"] == algorithm)
+        row_is_valid_destination = (destination == None or row["destination"] == destination)
         
-        if row_is_valid_algo and row[column] != "":
+        if row_is_valid_destination and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
 
 # same as above, but we skip the first sample
 # this is critical for interval related graphing functionalities to not break!
-def get_series_ignore_first_sample(run, column, algorithm):
+def get_series_ignore_first_sample(run, column, destination):
     # returns tuple of lists with times (elapsed_s) and values of one CSV column and skips rows where column value empty
-    # only appends if row's algorithm type matches the provided type; if input is 'None', then doesn't check for algorithm type.
+    # only appends if row's destination matches this destination or not provided
     
     times = []
     values = []
     for row in run["rows"]:
-        row_is_valid_algo = (algorithm == None or row["algorithm"] == algorithm)
+        row_is_valid_destination = (destination == None or row["destination"] == destination)
         
-        if row_is_valid_algo and row["sample"] > 0 and row[column] != "":
+        if row_is_valid_destination and row["sample"] > 0 and row[column] != "":
             times.append(row["elapsed_s"])
             values.append(row[column])
     return times, values
@@ -584,7 +584,7 @@ def print_summary(summary):
 
 
 
-def make_plots(runs, summary, algorithms, out_dir):
+def make_plots(runs, summary, algorithms, representative_destinations, out_dir):
 	# pdf plot generation:
     #
 	# runs is a list that contains dicts with the following fields (one per completed test):
@@ -603,7 +603,55 @@ def make_plots(runs, summary, algorithms, out_dir):
 	# out_dir is where i put the csvs so pdfs should go there too
     #
     # 'algorithms': list of algorithms ran; need to graph separately for each algo, so must track ran algorithms.
+    #
+    # 'representative_destinations': should be a list of representative destinations for runs
     
+    
+    # TODO: revise graphing schema:
+    # as per the assignment, "Use the same representative destination for all three algorithms, with clearly labeled curves or separate panels and consistent axis scales to facilitate comparison"
+    # therefore, will need to actually graph everyone onto the same graph per destination
+    # TODO: Zach will be responsible for updating polling s.t. there won't be any repeated (algo, destination) data if the connection was successful; so for now, make sure to run with 'repetitions = 1'!
+    
+    # TODO: update this function s.t. it'll work for Q2 independently, and then Q3.
+    
+    """
+    destination:
+    
+    - algo 0, run(s) data:
+        cwnds = []
+        alltimes = []
+        rtts = []
+        retranses = []
+        goodputs = []
+        alltimes_interval = []
+        cwnds_interval = []
+        rtts_interval = []
+    
+    - algo 1, runs data:
+        (...)
+        
+    """
+    
+    # TODO:
+    # pre-processing should now create DS for each destination as described by above
+    # when actually graphing, then we need to create graphs per destination!
+    
+    destination_data = {}
+    for d in representative_destinations:
+        destination_data[d] = {}
+        
+        for a in algorithms:
+            destination_data[d][a] = {}
+            
+            destination_data[d][a]['alltimes'] = []
+            destination_data[d][a]['alltimes_interval'] = []
+            destination_data[d][a]['cwnds'] = []
+            destination_data[d][a]['rtts'] = []
+            destination_data[d][a]['retranses'] = []
+            destination_data[d][a]['goodputs'] = []
+            
+            destination_data[d][a]['cwnds_interval'] = []
+            destination_data[d][a]['cwnds_interval'] = []
     
     ######################################################################################
     # PREPROCESSING STEP: map algorithms to their respective run IDs, run data and stuff #
@@ -669,7 +717,10 @@ def make_plots(runs, summary, algorithms, out_dir):
     ##############################
     # actual plotting stuff time #
     ##############################
-    for algorithm in algorithms:
+    
+    # TODO: update to use 'per-destination' model!
+    #for algorithm in algorithms:
+    for destination in representative_destinations:
         cwnds = []
         alltimes = []
         rtts = []
@@ -742,7 +793,7 @@ def make_plots(runs, summary, algorithms, out_dir):
         # goodputs =    Goodput, in bytes per second
         
         # dynamically generate graph name depending on input algorithm type
-        output_file_name = "/multiple_plots_" + str(algorithm) + ".pdf"
+        output_file_name = "/multiple_plots_" + str(destination) + ".pdf"
 
         with PdfPages(out_dir + output_file_name) as pdf:
             #TODO: make the scales consistant between different algorithms
@@ -763,9 +814,9 @@ def make_plots(runs, summary, algorithms, out_dir):
             
             #times, cwnd = get_series(runs, "snd_cwnd_pkts")
             # plot data per run
-            for run_id in algo_to_runs[algorithm]['runIds']:
-                data = algo_to_runs[algorithm]['runData'][run_id];
-                plt.plot(data['alltimes'], data['cwnds'], label = "Run " + str(run_id))
+            #for run_id in algo_to_runs[algorithm]['runIds']:
+            #    data = algo_to_runs[algorithm]['runData'][run_id];
+            #    plt.plot(data['alltimes'], data['cwnds'], label = "Run " + str(run_id))
             plt.xlabel("Time Elapsed")
             plt.ylabel("Congestion Window Size (packets)")
             plt.legend()
@@ -776,9 +827,9 @@ def make_plots(runs, summary, algorithms, out_dir):
             #times, rtt = get_series(runs, "srtt_us")
             #plt.plot(alltimes, rtts)
             # plot data per run
-            for run_id in algo_to_runs[algorithm]['runIds']:
-                data = algo_to_runs[algorithm]['runData'][run_id];
-                plt.plot(data['alltimes'], data['rtts'], label = "Run " + str(run_id))
+            #for run_id in algo_to_runs[algorithm]['runIds']:
+            #    data = algo_to_runs[algorithm]['runData'][run_id];
+            #    plt.plot(data['alltimes'], data['rtts'], label = "Run " + str(run_id))
             plt.xlabel("Time Elapsed (seconds)")
             plt.ylabel("Smoothed RTTs (microseconds)")
             plt.legend()
@@ -862,10 +913,13 @@ def main():
 		print("No default congestion-control tests completed.")
 		return
 
-	representative_destination = default_runs[0]["destination"]
+	#representative_destination = default_runs[0]["destination"]
+	representative_destination = []
+	for dest in default_runs:
+		representative_destination.append(dest["destination"])
 
 	print(
-		f"\n[+] Representative destination: "
+		f"\n[+] Representative destination(s): "
 		f"{representative_destination}"
 	)
 
@@ -902,6 +956,9 @@ def main():
 			os.path.join(args.out_dir, "comparison_goodput_summary.csv"))
 		print("\n[+] Q3 congestion control comparison")
 		print_summary(comparison_summary)
+        
+        # TODO: test this some more
+        #make_plots(runs, summary, algorithms, representative_destination, args.out_dir)
 
 	print(
 		f"\n[+] Done! Wrote results to "
