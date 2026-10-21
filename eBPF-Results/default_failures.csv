@@ -1,2 +1,8 @@
 destination,reason
-speedtest.sin1.sg.leaseweb.net:5201,Connection closed while receiving from control socket: [Errno 104] Connection reset by peer
+185.93.2.193:5201,Server is busy
+speedtest.tangerang2.myrepublic.net.id:9201,Failed to connect control socket to speedtest.tangerang2.myrepublic.net.id:9201: [Errno 111] Connection refused
+speedtest.hiper.dk:5201,Server is busy
+89.187.164.1:5201,Server is busy
+speedtest.nl1.mirhosting.net:5201,Failed to connect control socket to speedtest.nl1.mirhosting.net:5201: timed out
+spd-fisrv.hostkey.com:5201,Server is busy
+185.59.223.8:5201,Server is busy

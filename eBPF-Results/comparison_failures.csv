@@ -1,10 +1,18 @@
 destination,algorithm,repetition,reason
-109.61.94.65:5201,reno,1,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,bbr,1,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,cubic,2,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,cubic_tmult,2,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,bbr,3,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,cubic,3,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,reno,4,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,reno,5,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
-109.61.94.65:5201,bbr,5,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+gw1.malabo.guineanet.net:5201,reno,1,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+gw1.malabo.guineanet.net:5201,cubic,1,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+gw1.malabo.guineanet.net:5201,bbr,1,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+gw1.malabo.guineanet.net:5201,cubic_tmult,1,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+speedtest.dal13.us.leaseweb.net:5201,cubic,2,Server is busy
+speedtest.dal13.us.leaseweb.net:5201,bbr,2,Server is busy
+speedtest.dal13.us.leaseweb.net:5201,cubic_tmult,2,Server is busy
+speedtest.dal13.us.leaseweb.net:5201,reno,2,Server is busy
+speedtest.nyc1.us.leaseweb.net:5201,cubic,2,Server is busy
+speedtest.nyc1.us.leaseweb.net:5201,bbr,2,Server is busy
+speedtest.nyc1.us.leaseweb.net:5201,cubic_tmult,2,Server is busy
+197.227.12.18:5201,cubic_tmult,2,Server is busy
+197.227.12.18:5201,reno,2,Server is busy
+69.48.236.198:30001,bbr,3,Connection closed while sending to data socket: [Errno 32] Broken pipe
+gw1.malabo.guineanet.net:5201,bbr,3,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+gw1.malabo.guineanet.net:5201,cubic_tmult,3,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+gw1.malabo.guineanet.net:5201,reno,3,Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known

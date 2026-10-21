@@ -1,0 +1,554 @@
+Number of entries: 190
+
+ Q1/Q2: running default congestion control tests
+[*] Running test 1 on 169.150.242.129:5201 with algorithm cubic
+Traceback (most recent call last):
+  File "/usr/local/app/src/main.py", line 998, in <module>
+    main()
+  File "/usr/local/app/src/main.py", line 895, in main
+    run_default_tests(destinations)
+  File "/usr/local/app/src/main.py", line 289, in run_default_tests
+    run = run_one(dest, None, run_id, phase="default", repetition=1, test_order=1)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/app/src/main.py", line 217, in run_one
+    iperfclient.run()
+  File "/usr/local/app/src/iperf3jank.py", line 155, in run
+    self.send_data()
+  File "/usr/local/app/src/iperf3jank.py", line 203, in send_data
+    send_all(self.data_sock, buf, "data socket")
+  File "/usr/local/app/src/iperf3jank.py", line 55, in send_all
+    sock.sendall(data)
+KeyboardInterrupt
+
+got 3 SIGTERM/SIGINTs, forcefully exiting
+Number of entries: 190
+
+ Q1/Q2: running default congestion control tests
+[*] Running test 1 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 1 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic]: 199.9 Mbps average, 52 TCP samples
+[*] Running test 2 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.dal13.us.leaseweb.net:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 2 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[+] 2 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [cubic]: 585.3 Mbps average, 51 TCP samples
+[*] Running test 3 on chch.linetest.nz:5301 with algorithm cubic
+[+] 3 chch.linetest.nz:5301 (Christchurch, NZ) [cubic]: 102.1 Mbps average, 52 TCP samples
+[*] Running test 4 on 69.48.236.198:30001 with algorithm cubic
+[+] 4 69.48.236.198:30001 (Pune, IN) [cubic]: 80.1 Mbps average, 52 TCP samples
+[*] Running test 5 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 5 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[+] 5 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [cubic]: 882.1 Mbps average, 51 TCP samples
+[*] Running test 6 on 185.93.2.193:5201 with algorithm cubic
+[x] Server 185.93.2.193:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 6 on 185.93.2.193:5201 with algorithm cubic
+[x] Server 185.93.2.193:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 6 on 185.93.2.193:5201 with algorithm cubic
+[x] Server 185.93.2.193:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 6 on 185.93.2.193:5201 with algorithm cubic
+[x] Server 185.93.2.193:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 6 on 197.227.12.18:5201 with algorithm cubic
+[+] 6 197.227.12.18:5201 (Floreal, MU) [cubic]: 66.6 Mbps average, 52 TCP samples
+[*] Running test 7 on speedtest.tangerang2.myrepublic.net.id:9201 with algorithm cubic
+[x] Error testing speedtest.tangerang2.myrepublic.net.id:9201: Failed to connect control socket to speedtest.tangerang2.myrepublic.net.id:9201: [Errno 111] Connection refused. Trying replacement...
+[*] Running test 7 on it1.speedtest.aruba.it:5201 with algorithm cubic
+[+] 7 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic]: 164.1 Mbps average, 51 TCP samples
+[*] Running test 8 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 8 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 8 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 8 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 8 on 89.187.164.1:5201 with algorithm cubic
+[x] Server 89.187.164.1:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 8 on 89.187.164.1:5201 with algorithm cubic
+[x] Server 89.187.164.1:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 8 on 89.187.164.1:5201 with algorithm cubic
+[x] Server 89.187.164.1:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 8 on 89.187.164.1:5201 with algorithm cubic
+[x] Server 89.187.164.1:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 8 on speedtest.nl1.mirhosting.net:5201 with algorithm cubic
+[x] Error testing speedtest.nl1.mirhosting.net:5201: Failed to connect control socket to speedtest.nl1.mirhosting.net:5201: timed out. Trying replacement...
+[*] Running test 8 on iperf1.surfwireless.nl:5201 with algorithm cubic
+[+] 8 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic]: 173.9 Mbps average, 52 TCP samples
+[*] Running test 9 on spd-fisrv.hostkey.com:5201 with algorithm cubic
+[x] Server spd-fisrv.hostkey.com:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 9 on spd-fisrv.hostkey.com:5201 with algorithm cubic
+[x] Server spd-fisrv.hostkey.com:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 9 on spd-fisrv.hostkey.com:5201 with algorithm cubic
+[x] Server spd-fisrv.hostkey.com:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 9 on spd-fisrv.hostkey.com:5201 with algorithm cubic
+[x] Server spd-fisrv.hostkey.com:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 9 on 185.59.223.8:5201 with algorithm cubic
+[x] Server 185.59.223.8:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 9 on 185.59.223.8:5201 with algorithm cubic
+[x] Server 185.59.223.8:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 9 on 185.59.223.8:5201 with algorithm cubic
+[x] Server 185.59.223.8:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 9 on 185.59.223.8:5201 with algorithm cubic
+[x] Server 185.59.223.8:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 9 on speedtest.masnet.ec:5201 with algorithm cubic
+[+] 9 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic]: 35.7 Mbps average, 52 TCP samples
+[*] Running test 10 on gw1.malabo.guineanet.net:5201 with algorithm cubic
+[+] 10 gw1.malabo.guineanet.net:5201 (Bata, GQ) [cubic]: 57.5 Mbps average, 51 TCP samples
+
+[+] Representative destination(s): ['man.speedtest.clouvider.net:5200 (Manchester, GB)', 'speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)', 'chch.linetest.nz:5301 (Christchurch, NZ)', '69.48.236.198:30001 (Pune, IN)', 'speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)', '197.227.12.18:5201 (Floreal, MU)', 'it1.speedtest.aruba.it:5201 (Arezzo, IT)', 'iperf1.surfwireless.nl:5201 (Lelystad, NL)', 'speedtest.masnet.ec:5201 (Santa Ana, EC)', 'gw1.malabo.guineanet.net:5201 (Bata, GQ)']
+
+[+] Q3: comparing reno, cubic, bbr, cubic_tmult
+
+[+] Repetition 1/3: reno -> cubic -> bbr -> cubic_tmult
+[*] Running test 11 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 11 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=1 order=1: 198.0 Mbps
+[*] Running test 12 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 12 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=1 order=2: 192.7 Mbps
+[*] Running test 13 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 13 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=1 order=3: 195.8 Mbps
+[*] Running test 14 on man.speedtest.clouvider.net:5200 with algorithm cubic_tmult
+[+] 14 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic_tmult] rep=1 order=4: 192.8 Mbps
+[*] Running test 15 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[+] 15 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [reno] rep=1 order=1: 611.7 Mbps
+[*] Running test 16 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[+] 16 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [cubic] rep=1 order=2: 662.2 Mbps
+[*] Running test 17 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[+] 17 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [bbr] rep=1 order=3: 613.7 Mbps
+[*] Running test 18 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[+] 18 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [cubic_tmult] rep=1 order=4: 663.1 Mbps
+[*] Running test 19 on chch.linetest.nz:5301 with algorithm reno
+[+] 19 chch.linetest.nz:5301 (Christchurch, NZ) [reno] rep=1 order=1: 102.1 Mbps
+[*] Running test 20 on chch.linetest.nz:5301 with algorithm cubic
+[+] 20 chch.linetest.nz:5301 (Christchurch, NZ) [cubic] rep=1 order=2: 100.9 Mbps
+[*] Running test 21 on chch.linetest.nz:5301 with algorithm bbr
+[+] 21 chch.linetest.nz:5301 (Christchurch, NZ) [bbr] rep=1 order=3: 98.9 Mbps
+[*] Running test 22 on chch.linetest.nz:5301 with algorithm cubic_tmult
+[+] 22 chch.linetest.nz:5301 (Christchurch, NZ) [cubic_tmult] rep=1 order=4: 102.4 Mbps
+[*] Running test 23 on 69.48.236.198:30001 with algorithm reno
+[+] 23 69.48.236.198:30001 (Pune, IN) [reno] rep=1 order=1: 76.1 Mbps
+[*] Running test 24 on 69.48.236.198:30001 with algorithm cubic
+[+] 24 69.48.236.198:30001 (Pune, IN) [cubic] rep=1 order=2: 78.1 Mbps
+[*] Running test 25 on 69.48.236.198:30001 with algorithm bbr
+[+] 25 69.48.236.198:30001 (Pune, IN) [bbr] rep=1 order=3: 72.1 Mbps
+[*] Running test 26 on 69.48.236.198:30001 with algorithm cubic_tmult
+[+] 26 69.48.236.198:30001 (Pune, IN) [cubic_tmult] rep=1 order=4: 78.1 Mbps
+[*] Running test 27 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm reno
+[+] 27 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [reno] rep=1 order=1: 875.9 Mbps
+[*] Running test 28 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[+] 28 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [cubic] rep=1 order=2: 881.1 Mbps
+[*] Running test 29 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[+] 29 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [bbr] rep=1 order=3: 803.2 Mbps
+[*] Running test 30 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[+] 30 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [cubic_tmult] rep=1 order=4: 917.6 Mbps
+[*] Running test 31 on 197.227.12.18:5201 with algorithm reno
+[+] 31 197.227.12.18:5201 (Floreal, MU) [reno] rep=1 order=1: 62.2 Mbps
+[*] Running test 32 on 197.227.12.18:5201 with algorithm cubic
+[+] 32 197.227.12.18:5201 (Floreal, MU) [cubic] rep=1 order=2: 63.9 Mbps
+[*] Running test 33 on 197.227.12.18:5201 with algorithm bbr
+[+] 33 197.227.12.18:5201 (Floreal, MU) [bbr] rep=1 order=3: 63.8 Mbps
+[*] Running test 34 on 197.227.12.18:5201 with algorithm cubic_tmult
+[+] 34 197.227.12.18:5201 (Floreal, MU) [cubic_tmult] rep=1 order=4: 66.6 Mbps
+[*] Running test 35 on it1.speedtest.aruba.it:5201 with algorithm reno
+[+] 35 it1.speedtest.aruba.it:5201 (Arezzo, IT) [reno] rep=1 order=1: 159.6 Mbps
+[*] Running test 36 on it1.speedtest.aruba.it:5201 with algorithm cubic
+[+] 36 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic] rep=1 order=2: 161.6 Mbps
+[*] Running test 37 on it1.speedtest.aruba.it:5201 with algorithm bbr
+[+] 37 it1.speedtest.aruba.it:5201 (Arezzo, IT) [bbr] rep=1 order=3: 160.2 Mbps
+[*] Running test 38 on it1.speedtest.aruba.it:5201 with algorithm cubic_tmult
+[+] 38 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic_tmult] rep=1 order=4: 162.0 Mbps
+[*] Running test 39 on iperf1.surfwireless.nl:5201 with algorithm reno
+[+] 39 iperf1.surfwireless.nl:5201 (Lelystad, NL) [reno] rep=1 order=1: 178.2 Mbps
+[*] Running test 40 on iperf1.surfwireless.nl:5201 with algorithm cubic
+[+] 40 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic] rep=1 order=2: 194.4 Mbps
+[*] Running test 41 on iperf1.surfwireless.nl:5201 with algorithm bbr
+[+] 41 iperf1.surfwireless.nl:5201 (Lelystad, NL) [bbr] rep=1 order=3: 192.5 Mbps
+[*] Running test 42 on iperf1.surfwireless.nl:5201 with algorithm cubic_tmult
+[+] 42 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic_tmult] rep=1 order=4: 182.3 Mbps
+[*] Running test 43 on speedtest.masnet.ec:5201 with algorithm reno
+[+] 43 speedtest.masnet.ec:5201 (Santa Ana, EC) [reno] rep=1 order=1: 83.2 Mbps
+[*] Running test 44 on speedtest.masnet.ec:5201 with algorithm cubic
+[+] 44 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic] rep=1 order=2: 35.9 Mbps
+[*] Running test 45 on speedtest.masnet.ec:5201 with algorithm bbr
+[+] 45 speedtest.masnet.ec:5201 (Santa Ana, EC) [bbr] rep=1 order=3: 145.4 Mbps
+[*] Running test 46 on speedtest.masnet.ec:5201 with algorithm cubic_tmult
+[+] 46 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic_tmult] rep=1 order=4: 167.6 Mbps
+[*] Running test 47 on gw1.malabo.guineanet.net:5201 with algorithm reno
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [reno]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 47 on gw1.malabo.guineanet.net:5201 with algorithm cubic
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [cubic]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 47 on gw1.malabo.guineanet.net:5201 with algorithm bbr
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [bbr]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 47 on gw1.malabo.guineanet.net:5201 with algorithm cubic_tmult
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [cubic_tmult]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+
+[+] Repetition 2/3: cubic -> bbr -> cubic_tmult -> reno
+[*] Running test 47 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 47 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=2 order=1: 196.3 Mbps
+[*] Running test 48 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 48 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=2 order=2: 180.3 Mbps
+[*] Running test 49 on man.speedtest.clouvider.net:5200 with algorithm cubic_tmult
+[+] 49 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic_tmult] rep=2 order=3: 197.1 Mbps
+[*] Running test 50 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 50 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=2 order=4: 199.9 Mbps
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[x] Q3 server speedtest.dal13.us.leaseweb.net:5201 [cubic] remained busy after 3 retries.
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[x] Q3 server speedtest.dal13.us.leaseweb.net:5201 [bbr] remained busy after 3 retries.
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Q3 server speedtest.dal13.us.leaseweb.net:5201 [cubic_tmult] remained busy after 3 retries.
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [reno] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [reno] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[x] Server speedtest.dal13.us.leaseweb.net:5201 [reno] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 51 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[x] Q3 server speedtest.dal13.us.leaseweb.net:5201 [reno] remained busy after 3 retries.
+[*] Running test 51 on chch.linetest.nz:5301 with algorithm cubic
+[+] 51 chch.linetest.nz:5301 (Christchurch, NZ) [cubic] rep=2 order=1: 102.1 Mbps
+[*] Running test 52 on chch.linetest.nz:5301 with algorithm bbr
+[+] 52 chch.linetest.nz:5301 (Christchurch, NZ) [bbr] rep=2 order=2: 98.9 Mbps
+[*] Running test 53 on chch.linetest.nz:5301 with algorithm cubic_tmult
+[+] 53 chch.linetest.nz:5301 (Christchurch, NZ) [cubic_tmult] rep=2 order=3: 100.2 Mbps
+[*] Running test 54 on chch.linetest.nz:5301 with algorithm reno
+[+] 54 chch.linetest.nz:5301 (Christchurch, NZ) [reno] rep=2 order=4: 99.9 Mbps
+[*] Running test 55 on 69.48.236.198:30001 with algorithm cubic
+[+] 55 69.48.236.198:30001 (Pune, IN) [cubic] rep=2 order=1: 78.1 Mbps
+[*] Running test 56 on 69.48.236.198:30001 with algorithm bbr
+[+] 56 69.48.236.198:30001 (Pune, IN) [bbr] rep=2 order=2: 77.4 Mbps
+[*] Running test 57 on 69.48.236.198:30001 with algorithm cubic_tmult
+[+] 57 69.48.236.198:30001 (Pune, IN) [cubic_tmult] rep=2 order=3: 73.6 Mbps
+[*] Running test 58 on 69.48.236.198:30001 with algorithm reno
+[+] 58 69.48.236.198:30001 (Pune, IN) [reno] rep=2 order=4: 79.6 Mbps
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[x] Q3 server speedtest.nyc1.us.leaseweb.net:5201 [cubic] remained busy after 3 retries.
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [bbr] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[x] Q3 server speedtest.nyc1.us.leaseweb.net:5201 [bbr] remained busy after 3 retries.
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [cubic_tmult] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[x] Q3 server speedtest.nyc1.us.leaseweb.net:5201 [cubic_tmult] remained busy after 3 retries.
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm reno
+[x] Server speedtest.nyc1.us.leaseweb.net:5201 [reno] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 59 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm reno
+[+] 59 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [reno] rep=2 order=4: 808.5 Mbps
+[*] Running test 60 on 197.227.12.18:5201 with algorithm cubic
+[+] 60 197.227.12.18:5201 (Floreal, MU) [cubic] rep=2 order=1: 64.3 Mbps
+[*] Running test 61 on 197.227.12.18:5201 with algorithm bbr
+[+] 61 197.227.12.18:5201 (Floreal, MU) [bbr] rep=2 order=2: 63.4 Mbps
+[*] Running test 62 on 197.227.12.18:5201 with algorithm cubic_tmult
+[x] Server 197.227.12.18:5201 [cubic_tmult] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm cubic_tmult
+[x] Server 197.227.12.18:5201 [cubic_tmult] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm cubic_tmult
+[x] Server 197.227.12.18:5201 [cubic_tmult] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm cubic_tmult
+[x] Q3 server 197.227.12.18:5201 [cubic_tmult] remained busy after 3 retries.
+[*] Running test 62 on 197.227.12.18:5201 with algorithm reno
+[x] Server 197.227.12.18:5201 [reno] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm reno
+[x] Server 197.227.12.18:5201 [reno] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm reno
+[x] Server 197.227.12.18:5201 [reno] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 62 on 197.227.12.18:5201 with algorithm reno
+[x] Q3 server 197.227.12.18:5201 [reno] remained busy after 3 retries.
+[*] Running test 62 on it1.speedtest.aruba.it:5201 with algorithm cubic
+[+] 62 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic] rep=2 order=1: 161.6 Mbps
+[*] Running test 63 on it1.speedtest.aruba.it:5201 with algorithm bbr
+[+] 63 it1.speedtest.aruba.it:5201 (Arezzo, IT) [bbr] rep=2 order=2: 157.3 Mbps
+[*] Running test 64 on it1.speedtest.aruba.it:5201 with algorithm cubic_tmult
+[+] 64 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic_tmult] rep=2 order=3: 160.7 Mbps
+[*] Running test 65 on it1.speedtest.aruba.it:5201 with algorithm reno
+[+] 65 it1.speedtest.aruba.it:5201 (Arezzo, IT) [reno] rep=2 order=4: 163.9 Mbps
+[*] Running test 66 on iperf1.surfwireless.nl:5201 with algorithm cubic
+[+] 66 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic] rep=2 order=1: 192.0 Mbps
+[*] Running test 67 on iperf1.surfwireless.nl:5201 with algorithm bbr
+[+] 67 iperf1.surfwireless.nl:5201 (Lelystad, NL) [bbr] rep=2 order=2: 192.6 Mbps
+[*] Running test 68 on iperf1.surfwireless.nl:5201 with algorithm cubic_tmult
+[+] 68 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic_tmult] rep=2 order=3: 190.5 Mbps
+[*] Running test 69 on iperf1.surfwireless.nl:5201 with algorithm reno
+[+] 69 iperf1.surfwireless.nl:5201 (Lelystad, NL) [reno] rep=2 order=4: 187.6 Mbps
+[*] Running test 70 on speedtest.masnet.ec:5201 with algorithm cubic
+[+] 70 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic] rep=2 order=1: 87.3 Mbps
+[*] Running test 71 on speedtest.masnet.ec:5201 with algorithm bbr
+[+] 71 speedtest.masnet.ec:5201 (Santa Ana, EC) [bbr] rep=2 order=2: 155.0 Mbps
+[*] Running test 72 on speedtest.masnet.ec:5201 with algorithm cubic_tmult
+[+] 72 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic_tmult] rep=2 order=3: 26.7 Mbps
+[*] Running test 73 on speedtest.masnet.ec:5201 with algorithm reno
+[+] 73 speedtest.masnet.ec:5201 (Santa Ana, EC) [reno] rep=2 order=4: 45.3 Mbps
+[*] Running test 74 on gw1.malabo.guineanet.net:5201 with algorithm cubic
+[+] 74 gw1.malabo.guineanet.net:5201 (Bata, GQ) [cubic] rep=2 order=1: 58.5 Mbps
+[*] Running test 75 on gw1.malabo.guineanet.net:5201 with algorithm bbr
+[+] 75 gw1.malabo.guineanet.net:5201 (Bata, GQ) [bbr] rep=2 order=2: 57.8 Mbps
+[*] Running test 76 on gw1.malabo.guineanet.net:5201 with algorithm cubic_tmult
+[+] 76 gw1.malabo.guineanet.net:5201 (Bata, GQ) [cubic_tmult] rep=2 order=3: 63.4 Mbps
+[*] Running test 77 on gw1.malabo.guineanet.net:5201 with algorithm reno
+[+] 77 gw1.malabo.guineanet.net:5201 (Bata, GQ) [reno] rep=2 order=4: 61.0 Mbps
+
+[+] Repetition 3/3: bbr -> cubic_tmult -> reno -> cubic
+[*] Running test 78 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 78 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=3 order=1: 187.5 Mbps
+[*] Running test 79 on man.speedtest.clouvider.net:5200 with algorithm cubic_tmult
+[+] 79 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic_tmult] rep=3 order=2: 192.8 Mbps
+[*] Running test 80 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 80 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=3 order=3: 203.1 Mbps
+[*] Running test 81 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 81 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=3 order=4: 193.4 Mbps
+[*] Running test 82 on speedtest.dal13.us.leaseweb.net:5201 with algorithm bbr
+[+] 82 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [bbr] rep=3 order=1: 581.6 Mbps
+[*] Running test 83 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic_tmult
+[+] 83 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [cubic_tmult] rep=3 order=2: 581.6 Mbps
+[*] Running test 84 on speedtest.dal13.us.leaseweb.net:5201 with algorithm reno
+[+] 84 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [reno] rep=3 order=3: 615.2 Mbps
+[*] Running test 85 on speedtest.dal13.us.leaseweb.net:5201 with algorithm cubic
+[+] 85 speedtest.dal13.us.leaseweb.net:5201 (Dallas, US) [cubic] rep=3 order=4: 615.0 Mbps
+[*] Running test 86 on chch.linetest.nz:5301 with algorithm bbr
+[+] 86 chch.linetest.nz:5301 (Christchurch, NZ) [bbr] rep=3 order=1: 99.8 Mbps
+[*] Running test 87 on chch.linetest.nz:5301 with algorithm cubic_tmult
+[+] 87 chch.linetest.nz:5301 (Christchurch, NZ) [cubic_tmult] rep=3 order=2: 102.4 Mbps
+[*] Running test 88 on chch.linetest.nz:5301 with algorithm reno
+[+] 88 chch.linetest.nz:5301 (Christchurch, NZ) [reno] rep=3 order=3: 99.9 Mbps
+[*] Running test 89 on chch.linetest.nz:5301 with algorithm cubic
+[+] 89 chch.linetest.nz:5301 (Christchurch, NZ) [cubic] rep=3 order=4: 100.7 Mbps
+[*] Running test 90 on 69.48.236.198:30001 with algorithm bbr
+[x] Q3 failed: 69.48.236.198:30001 [bbr]: Connection closed while sending to data socket: [Errno 32] Broken pipe
+[*] Running test 90 on 69.48.236.198:30001 with algorithm cubic_tmult
+[+] 90 69.48.236.198:30001 (Pune, IN) [cubic_tmult] rep=3 order=2: 83.6 Mbps
+[*] Running test 91 on 69.48.236.198:30001 with algorithm reno
+[+] 91 69.48.236.198:30001 (Pune, IN) [reno] rep=3 order=3: 72.1 Mbps
+[*] Running test 92 on 69.48.236.198:30001 with algorithm cubic
+[+] 92 69.48.236.198:30001 (Pune, IN) [cubic] rep=3 order=4: 77.0 Mbps
+[*] Running test 93 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm bbr
+[+] 93 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [bbr] rep=3 order=1: 879.7 Mbps
+[*] Running test 94 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic_tmult
+[+] 94 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [cubic_tmult] rep=3 order=2: 874.9 Mbps
+[*] Running test 95 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm reno
+[+] 95 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [reno] rep=3 order=3: 880.7 Mbps
+[*] Running test 96 on speedtest.nyc1.us.leaseweb.net:5201 with algorithm cubic
+[+] 96 speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) [cubic] rep=3 order=4: 804.8 Mbps
+[*] Running test 97 on 197.227.12.18:5201 with algorithm bbr
+[+] 97 197.227.12.18:5201 (Floreal, MU) [bbr] rep=3 order=1: 64.0 Mbps
+[*] Running test 98 on 197.227.12.18:5201 with algorithm cubic_tmult
+[+] 98 197.227.12.18:5201 (Floreal, MU) [cubic_tmult] rep=3 order=2: 65.6 Mbps
+[*] Running test 99 on 197.227.12.18:5201 with algorithm reno
+[+] 99 197.227.12.18:5201 (Floreal, MU) [reno] rep=3 order=3: 61.9 Mbps
+[*] Running test 100 on 197.227.12.18:5201 with algorithm cubic
+[+] 100 197.227.12.18:5201 (Floreal, MU) [cubic] rep=3 order=4: 64.4 Mbps
+[*] Running test 101 on it1.speedtest.aruba.it:5201 with algorithm bbr
+[+] 101 it1.speedtest.aruba.it:5201 (Arezzo, IT) [bbr] rep=3 order=1: 158.0 Mbps
+[*] Running test 102 on it1.speedtest.aruba.it:5201 with algorithm cubic_tmult
+[+] 102 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic_tmult] rep=3 order=2: 164.8 Mbps
+[*] Running test 103 on it1.speedtest.aruba.it:5201 with algorithm reno
+[+] 103 it1.speedtest.aruba.it:5201 (Arezzo, IT) [reno] rep=3 order=3: 162.2 Mbps
+[*] Running test 104 on it1.speedtest.aruba.it:5201 with algorithm cubic
+[+] 104 it1.speedtest.aruba.it:5201 (Arezzo, IT) [cubic] rep=3 order=4: 159.7 Mbps
+[*] Running test 105 on iperf1.surfwireless.nl:5201 with algorithm bbr
+[+] 105 iperf1.surfwireless.nl:5201 (Lelystad, NL) [bbr] rep=3 order=1: 173.7 Mbps
+[*] Running test 106 on iperf1.surfwireless.nl:5201 with algorithm cubic_tmult
+[+] 106 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic_tmult] rep=3 order=2: 188.3 Mbps
+[*] Running test 107 on iperf1.surfwireless.nl:5201 with algorithm reno
+[+] 107 iperf1.surfwireless.nl:5201 (Lelystad, NL) [reno] rep=3 order=3: 173.3 Mbps
+[*] Running test 108 on iperf1.surfwireless.nl:5201 with algorithm cubic
+[+] 108 iperf1.surfwireless.nl:5201 (Lelystad, NL) [cubic] rep=3 order=4: 190.6 Mbps
+[*] Running test 109 on speedtest.masnet.ec:5201 with algorithm bbr
+[+] 109 speedtest.masnet.ec:5201 (Santa Ana, EC) [bbr] rep=3 order=1: 175.5 Mbps
+[*] Running test 110 on speedtest.masnet.ec:5201 with algorithm cubic_tmult
+[+] 110 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic_tmult] rep=3 order=2: 10.0 Mbps
+[*] Running test 111 on speedtest.masnet.ec:5201 with algorithm reno
+[+] 111 speedtest.masnet.ec:5201 (Santa Ana, EC) [reno] rep=3 order=3: 51.9 Mbps
+[*] Running test 112 on speedtest.masnet.ec:5201 with algorithm cubic
+[+] 112 speedtest.masnet.ec:5201 (Santa Ana, EC) [cubic] rep=3 order=4: 29.0 Mbps
+[*] Running test 113 on gw1.malabo.guineanet.net:5201 with algorithm bbr
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [bbr]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 113 on gw1.malabo.guineanet.net:5201 with algorithm cubic_tmult
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [cubic_tmult]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 113 on gw1.malabo.guineanet.net:5201 with algorithm reno
+[x] Q3 failed: gw1.malabo.guineanet.net:5201 [reno]: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[*] Running test 113 on gw1.malabo.guineanet.net:5201 with algorithm cubic
+[+] 113 gw1.malabo.guineanet.net:5201 (Bata, GQ) [cubic] rep=3 order=4: 62.4 Mbps
+
+[+] Q1/Q2 default congestion control
+
+[+] Goodput (Mbps)
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] destination                                        algorithm       min   median     mean      p95
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.58   220.19   195.94   225.51
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  cubic         17.91   598.01   583.24   627.56
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic          0.58   110.10   100.03   145.79
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic          0.00   110.08    77.25   110.14
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) cubic        100.94   896.86   880.06   898.09
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic          0.00   108.31    65.18   110.14
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic          0.58   172.69   161.97   225.38
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic          0.64   194.06   170.44   220.27
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic          1.74    35.33    33.11    51.14
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           cubic          0.00    61.61    55.39    76.69
+
+[+] Q3 congestion control comparison
+
+[+] Goodput (Mbps)
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] destination                                        algorithm       min   median     mean      p95
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           0.58   220.18   194.08   225.45
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.58   220.13   188.85   220.27
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.75   209.72   193.78   215.04
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic_tmult     0.64   220.11   188.95   220.28
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  reno          17.94   616.97   610.01   656.11
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  cubic         36.44   680.42   660.43   684.59
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  bbr           16.27   629.25   612.27   654.73
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  cubic_tmult    39.20   680.74   661.16   685.25
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           reno           0.58   110.10   100.03   141.89
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic          0.58   110.10    99.24   138.56
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           bbr            0.29   113.24    96.84   115.42
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic_tmult     0.64   110.10   100.33   147.75
+[+] 69.48.236.198:30001 (Pune, IN)                     reno           0.00   110.06    74.53   110.14
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic          0.00   110.06    75.36   110.14
+[+] 69.48.236.198:30001 (Pune, IN)                     bbr            0.00    89.13    69.94    94.40
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic_tmult     0.00   110.06    76.48   110.15
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) reno          97.41   892.46   873.68   900.53
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) cubic        120.87   896.48   879.41   898.97
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) bbr           45.09   818.94   800.90   825.48
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) cubic_tmult   161.53   934.26   915.48   935.10
+[+] 197.227.12.18:5201 (Floreal, MU)                   reno           0.00    92.12    59.98   110.17
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic          0.00    98.18    62.50   110.14
+[+] 197.227.12.18:5201 (Floreal, MU)                   bbr            0.00    76.39    61.78    83.93
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic_tmult     0.00   104.93    65.17   110.13
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           reno           0.58   167.84   156.46   220.21
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic          0.58   174.69   158.31   220.29
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           bbr            0.64   169.54   158.02   197.25
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic_tmult     0.64   171.37   158.83   220.28
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         reno           0.58   204.45   173.73   220.28
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic          0.58   220.14   192.42   220.34
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         bbr            0.64   208.99   190.32   210.03
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic_tmult     0.64   218.56   178.77   220.32
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           reno           1.74    52.32    79.46   220.17
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic          0.58    26.11    33.15    64.90
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           bbr            0.64   160.09   143.37   196.98
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic_tmult     0.64   179.60   165.65   226.30
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          1.74   220.13   192.45   220.27
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.64   194.07   176.49   202.07
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic_tmult     0.64   220.13   193.27   220.27
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           1.74   220.21   195.84   225.60
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic          0.58   110.10   100.03   142.77
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           bbr            0.35   113.79    96.68   115.40
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic_tmult     0.64   110.10    98.17   130.14
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           reno           0.58   110.10    97.87   133.53
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic          0.00   110.07    76.48   110.14
+[+] 69.48.236.198:30001 (Pune, IN)                     bbr            0.00    94.38    75.56    99.64
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic_tmult     0.00   110.06    71.93   110.16
+[+] 69.48.236.198:30001 (Pune, IN)                     reno           0.00   110.08    77.92   110.14
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) reno          71.50   823.91   806.45   830.74
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic          0.00    89.24    61.71   110.15
+[+] 197.227.12.18:5201 (Floreal, MU)                   bbr            0.00    76.21    61.24    83.92
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic          0.58   180.81   158.32   220.27
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           bbr            0.64   168.18   154.19   181.72
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic_tmult     0.64   170.53   157.60   220.32
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           reno           0.58   178.23   160.68   220.25
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic          0.58   220.06   190.17   220.38
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         bbr            0.64   206.53   190.42   213.82
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic_tmult     0.64   220.13   188.37   220.33
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         reno           0.58   220.11   185.43   220.29
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic          1.74    55.48    85.17   220.21
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           bbr            0.64   163.50   151.84   220.24
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic_tmult     0.64    20.57    24.33    43.15
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           reno           1.74    19.52    42.31   165.86
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           cubic          0.00    62.79    56.71    78.10
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           bbr            0.00    66.17    55.56    71.18
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           cubic_tmult     0.00    70.45    61.17    79.36
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           reno           0.00    68.89    58.96    75.25
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.64   199.32   183.71   209.78
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic_tmult     0.64   220.13   188.95   220.28
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           1.74   220.18   201.22   220.28
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.58   220.12   189.46   225.47
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  bbr           11.58   597.70   579.34   620.59
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  cubic_tmult    18.17   598.05   579.39   622.14
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  reno          17.80   618.86   612.89   660.72
+[+] speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)  cubic         16.43   620.21   612.68   658.90
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           bbr            0.35   115.29    97.62   116.13
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic_tmult     0.64   110.10   100.33   142.04
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           reno           0.58   110.10    97.87   133.70
+[+] chch.linetest.nz:5301 (Christchurch, NZ)           cubic          0.58   110.11    98.69   139.18
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic_tmult     0.00   110.06    81.83   110.15
+[+] 69.48.236.198:30001 (Pune, IN)                     reno           0.00   110.05    70.08   110.15
+[+] 69.48.236.198:30001 (Pune, IN)                     cubic          0.00   110.06    75.36   110.16
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) bbr           90.55   895.58   877.95   896.96
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) cubic_tmult   139.62   890.60   873.55   892.22
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) reno         117.16   895.47   879.07   896.78
+[+] speedtest.nyc1.us.leaseweb.net:5201 (New York City, US) cubic         70.38   820.34   802.46   826.86
+[+] 197.227.12.18:5201 (Floreal, MU)                   bbr            0.00    75.51    61.76    85.13
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic_tmult     0.00    94.84    63.98   110.15
+[+] 197.227.12.18:5201 (Floreal, MU)                   reno           0.00    78.01    60.55   110.14
+[+] 197.227.12.18:5201 (Floreal, MU)                   cubic          0.00    86.10    62.39   110.14
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           bbr            0.64   168.75   154.82   190.34
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic_tmult     0.64   187.42   162.63   220.28
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           reno           0.58   176.16   160.35   220.31
+[+] it1.speedtest.aruba.it:5201 (Arezzo, IT)           cubic          0.58   184.22   156.47   220.24
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         bbr            0.64   188.88   170.25   217.10
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic_tmult     0.64   220.10   186.68   220.28
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         reno           0.58   194.00   168.90   220.28
+[+] iperf1.surfwireless.nl:5201 (Lelystad, NL)         cubic          0.58   215.04   188.43   220.36
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           bbr            0.64   200.74   173.28   220.20
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic_tmult     0.64    10.19     9.27    11.82
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           reno           0.58    15.35    47.85   202.74
+[+] speedtest.masnet.ec:5201 (Santa Ana, EC)           cubic          1.74    22.54    26.49    57.58
+[+] gw1.malabo.guineanet.net:5201 (Bata, GQ)           cubic          0.00    70.74    60.24    78.32
+
+[+] Experiment summary
+[+] Q1/Q2 destinations: 10/10
+[+] Q1/Q2 failed servers: 7
+[+] Q3 expected runs: 120
+[+] Q3 completed runs: 103
+[+] Q3 missing runs: 17
+[+] Q3 failed attempts: 17
+[x] gw1.malabo.guineanet.net:5201 [reno] rep=1: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] gw1.malabo.guineanet.net:5201 [cubic] rep=1: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] gw1.malabo.guineanet.net:5201 [bbr] rep=1: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] gw1.malabo.guineanet.net:5201 [cubic_tmult] rep=1: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] speedtest.dal13.us.leaseweb.net:5201 [cubic] rep=2: Server is busy
+[x] speedtest.dal13.us.leaseweb.net:5201 [bbr] rep=2: Server is busy
+[x] speedtest.dal13.us.leaseweb.net:5201 [cubic_tmult] rep=2: Server is busy
+[x] speedtest.dal13.us.leaseweb.net:5201 [reno] rep=2: Server is busy
+[x] speedtest.nyc1.us.leaseweb.net:5201 [cubic] rep=2: Server is busy
+[x] speedtest.nyc1.us.leaseweb.net:5201 [bbr] rep=2: Server is busy
+[x] speedtest.nyc1.us.leaseweb.net:5201 [cubic_tmult] rep=2: Server is busy
+[x] 197.227.12.18:5201 [cubic_tmult] rep=2: Server is busy
+[x] 197.227.12.18:5201 [reno] rep=2: Server is busy
+[x] 69.48.236.198:30001 [bbr] rep=3: Connection closed while sending to data socket: [Errno 32] Broken pipe
+[x] gw1.malabo.guineanet.net:5201 [bbr] rep=3: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] gw1.malabo.guineanet.net:5201 [cubic_tmult] rep=3: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+[x] gw1.malabo.guineanet.net:5201 [reno] rep=3: Failed to connect control socket to gw1.malabo.guineanet.net:5201: [Errno -2] Name or service not known
+
+[+] Done! Wrote results to 'results'/

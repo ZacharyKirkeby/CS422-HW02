@@ -1,21 +1,104 @@
 run_id,destination,algorithm,min_mbps,median_mbps,mean_mbps,p95_mbps
-2,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,8.87,12.58,31.16
-3,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,6.26,33.04,188.76
-4,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,1.54,7.64,42.59
-5,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.12,4.75,6.83,14.77
-6,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.06,1.8,3.94,17.08
-7,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.06,3.47,9.05,46.04
-8,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.0,0.64,8.05,64.87
-9,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,2.37,10.07,24.96
-10,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,7.3,15.19,51.88
-11,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.06,7.24,34.93,204.31
-12,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.23,80.58,63.04,122.1
-13,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,0.66,0.87,2.2
-14,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.0,4.05,11.62,55.26
-15,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,13.29,17.55,44.07
-16,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.06,3.07,28.22,111.64
-17,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,7.47,60.6,187.88
-18,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.0,1.51,3.46,13.39
-19,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,0.66,5.4,29.43
-20,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.23,6.15,9.78,31.9
-21,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.06,0.98,42.18,220.2
+11,"man.speedtest.clouvider.net:5200 (Manchester, GB)",reno,0.58,220.18,194.08,225.45
+12,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic,0.58,220.13,188.85,220.27
+13,"man.speedtest.clouvider.net:5200 (Manchester, GB)",bbr,0.75,209.72,193.78,215.04
+14,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic_tmult,0.64,220.11,188.95,220.28
+15,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",reno,17.94,616.97,610.01,656.11
+16,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",cubic,36.44,680.42,660.43,684.59
+17,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",bbr,16.27,629.25,612.27,654.73
+18,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",cubic_tmult,39.2,680.74,661.16,685.25
+19,"chch.linetest.nz:5301 (Christchurch, NZ)",reno,0.58,110.1,100.03,141.89
+20,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic,0.58,110.1,99.24,138.56
+21,"chch.linetest.nz:5301 (Christchurch, NZ)",bbr,0.29,113.24,96.84,115.42
+22,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic_tmult,0.64,110.1,100.33,147.75
+23,"69.48.236.198:30001 (Pune, IN)",reno,0.0,110.06,74.53,110.14
+24,"69.48.236.198:30001 (Pune, IN)",cubic,0.0,110.06,75.36,110.14
+25,"69.48.236.198:30001 (Pune, IN)",bbr,0.0,89.13,69.94,94.4
+26,"69.48.236.198:30001 (Pune, IN)",cubic_tmult,0.0,110.06,76.48,110.15
+27,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",reno,97.41,892.46,873.68,900.53
+28,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",cubic,120.87,896.48,879.41,898.97
+29,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",bbr,45.09,818.94,800.9,825.48
+30,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",cubic_tmult,161.53,934.26,915.48,935.1
+31,"197.227.12.18:5201 (Floreal, MU)",reno,0.0,92.12,59.98,110.17
+32,"197.227.12.18:5201 (Floreal, MU)",cubic,0.0,98.18,62.5,110.14
+33,"197.227.12.18:5201 (Floreal, MU)",bbr,0.0,76.39,61.78,83.93
+34,"197.227.12.18:5201 (Floreal, MU)",cubic_tmult,0.0,104.93,65.17,110.13
+35,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",reno,0.58,167.84,156.46,220.21
+36,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic,0.58,174.69,158.31,220.29
+37,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",bbr,0.64,169.54,158.02,197.25
+38,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic_tmult,0.64,171.37,158.83,220.28
+39,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",reno,0.58,204.45,173.73,220.28
+40,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic,0.58,220.14,192.42,220.34
+41,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",bbr,0.64,208.99,190.32,210.03
+42,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic_tmult,0.64,218.56,178.77,220.32
+43,"speedtest.masnet.ec:5201 (Santa Ana, EC)",reno,1.74,52.32,79.46,220.17
+44,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic,0.58,26.11,33.15,64.9
+45,"speedtest.masnet.ec:5201 (Santa Ana, EC)",bbr,0.64,160.09,143.37,196.98
+46,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic_tmult,0.64,179.6,165.65,226.3
+47,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic,1.74,220.13,192.45,220.27
+48,"man.speedtest.clouvider.net:5200 (Manchester, GB)",bbr,0.64,194.07,176.49,202.07
+49,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic_tmult,0.64,220.13,193.27,220.27
+50,"man.speedtest.clouvider.net:5200 (Manchester, GB)",reno,1.74,220.21,195.84,225.6
+51,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic,0.58,110.1,100.03,142.77
+52,"chch.linetest.nz:5301 (Christchurch, NZ)",bbr,0.35,113.79,96.68,115.4
+53,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic_tmult,0.64,110.1,98.17,130.14
+54,"chch.linetest.nz:5301 (Christchurch, NZ)",reno,0.58,110.1,97.87,133.53
+55,"69.48.236.198:30001 (Pune, IN)",cubic,0.0,110.07,76.48,110.14
+56,"69.48.236.198:30001 (Pune, IN)",bbr,0.0,94.38,75.56,99.64
+57,"69.48.236.198:30001 (Pune, IN)",cubic_tmult,0.0,110.06,71.93,110.16
+58,"69.48.236.198:30001 (Pune, IN)",reno,0.0,110.08,77.92,110.14
+59,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",reno,71.5,823.91,806.45,830.74
+60,"197.227.12.18:5201 (Floreal, MU)",cubic,0.0,89.24,61.71,110.15
+61,"197.227.12.18:5201 (Floreal, MU)",bbr,0.0,76.21,61.24,83.92
+62,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic,0.58,180.81,158.32,220.27
+63,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",bbr,0.64,168.18,154.19,181.72
+64,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic_tmult,0.64,170.53,157.6,220.32
+65,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",reno,0.58,178.23,160.68,220.25
+66,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic,0.58,220.06,190.17,220.38
+67,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",bbr,0.64,206.53,190.42,213.82
+68,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic_tmult,0.64,220.13,188.37,220.33
+69,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",reno,0.58,220.11,185.43,220.29
+70,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic,1.74,55.48,85.17,220.21
+71,"speedtest.masnet.ec:5201 (Santa Ana, EC)",bbr,0.64,163.5,151.84,220.24
+72,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic_tmult,0.64,20.57,24.33,43.15
+73,"speedtest.masnet.ec:5201 (Santa Ana, EC)",reno,1.74,19.52,42.31,165.86
+74,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",cubic,0.0,62.79,56.71,78.1
+75,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",bbr,0.0,66.17,55.56,71.18
+76,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",cubic_tmult,0.0,70.45,61.17,79.36
+77,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",reno,0.0,68.89,58.96,75.25
+78,"man.speedtest.clouvider.net:5200 (Manchester, GB)",bbr,0.64,199.32,183.71,209.78
+79,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic_tmult,0.64,220.13,188.95,220.28
+80,"man.speedtest.clouvider.net:5200 (Manchester, GB)",reno,1.74,220.18,201.22,220.28
+81,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic,0.58,220.12,189.46,225.47
+82,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",bbr,11.58,597.7,579.34,620.59
+83,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",cubic_tmult,18.17,598.05,579.39,622.14
+84,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",reno,17.8,618.86,612.89,660.72
+85,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",cubic,16.43,620.21,612.68,658.9
+86,"chch.linetest.nz:5301 (Christchurch, NZ)",bbr,0.35,115.29,97.62,116.13
+87,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic_tmult,0.64,110.1,100.33,142.04
+88,"chch.linetest.nz:5301 (Christchurch, NZ)",reno,0.58,110.1,97.87,133.7
+89,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic,0.58,110.11,98.69,139.18
+90,"69.48.236.198:30001 (Pune, IN)",cubic_tmult,0.0,110.06,81.83,110.15
+91,"69.48.236.198:30001 (Pune, IN)",reno,0.0,110.05,70.08,110.15
+92,"69.48.236.198:30001 (Pune, IN)",cubic,0.0,110.06,75.36,110.16
+93,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",bbr,90.55,895.58,877.95,896.96
+94,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",cubic_tmult,139.62,890.6,873.55,892.22
+95,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",reno,117.16,895.47,879.07,896.78
+96,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",cubic,70.38,820.34,802.46,826.86
+97,"197.227.12.18:5201 (Floreal, MU)",bbr,0.0,75.51,61.76,85.13
+98,"197.227.12.18:5201 (Floreal, MU)",cubic_tmult,0.0,94.84,63.98,110.15
+99,"197.227.12.18:5201 (Floreal, MU)",reno,0.0,78.01,60.55,110.14
+100,"197.227.12.18:5201 (Floreal, MU)",cubic,0.0,86.1,62.39,110.14
+101,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",bbr,0.64,168.75,154.82,190.34
+102,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic_tmult,0.64,187.42,162.63,220.28
+103,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",reno,0.58,176.16,160.35,220.31
+104,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic,0.58,184.22,156.47,220.24
+105,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",bbr,0.64,188.88,170.25,217.1
+106,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic_tmult,0.64,220.1,186.68,220.28
+107,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",reno,0.58,194.0,168.9,220.28
+108,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic,0.58,215.04,188.43,220.36
+109,"speedtest.masnet.ec:5201 (Santa Ana, EC)",bbr,0.64,200.74,173.28,220.2
+110,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic_tmult,0.64,10.19,9.27,11.82
+111,"speedtest.masnet.ec:5201 (Santa Ana, EC)",reno,0.58,15.35,47.85,202.74
+112,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic,1.74,22.54,26.49,57.58
+113,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",cubic,0.0,70.74,60.24,78.32

@@ -1,2 +1,11 @@
 run_id,destination,algorithm,min_mbps,median_mbps,mean_mbps,p95_mbps
-1,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.33,0.66,1.76,5.5
+1,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic,0.58,220.19,195.94,225.51
+2,"speedtest.dal13.us.leaseweb.net:5201 (Dallas, US)",cubic,17.91,598.01,583.24,627.56
+3,"chch.linetest.nz:5301 (Christchurch, NZ)",cubic,0.58,110.1,100.03,145.79
+4,"69.48.236.198:30001 (Pune, IN)",cubic,0.0,110.08,77.25,110.14
+5,"speedtest.nyc1.us.leaseweb.net:5201 (New York City, US)",cubic,100.94,896.86,880.06,898.09
+6,"197.227.12.18:5201 (Floreal, MU)",cubic,0.0,108.31,65.18,110.14
+7,"it1.speedtest.aruba.it:5201 (Arezzo, IT)",cubic,0.58,172.69,161.97,225.38
+8,"iperf1.surfwireless.nl:5201 (Lelystad, NL)",cubic,0.64,194.06,170.44,220.27
+9,"speedtest.masnet.ec:5201 (Santa Ana, EC)",cubic,1.74,35.33,33.11,51.14
+10,"gw1.malabo.guineanet.net:5201 (Bata, GQ)",cubic,0.0,61.61,55.39,76.69
