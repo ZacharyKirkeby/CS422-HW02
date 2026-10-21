@@ -1,0 +1,397 @@
+sudo docker run --rm --user "$(id -u):$(id -g)"   -v "$PWD/results:/usr/local/app/results"   cs422-hw02 --duration 60 --num-tests 10 --algor
+ithms cubic,reno,bbr --repetitions 3
+Number of entries: 190
+
+ Q1/Q2: running default congestion control tests
+[*] Running test 1 on 89.187.162.1:5201 with algorithm cubic
+[+] 1 89.187.162.1:5201 (Singapore, SG) [cubic]: 34.5 Mbps average, 302 TCP samples
+[*] Running test 2 on iperf1.surfwireless.nl:5201 with algorithm cubic
+[x] Error testing iperf1.surfwireless.nl:5201: Connection closed while sending to data socket: [Errno 32] Broken pipe. Trying replacement...
+[*] Running test 2 on speedtest.hiper.dk:5201 with algorithm cubic
+[+] 2 speedtest.hiper.dk:5201 (Copenhagen, DK) [cubic]: 36.5 Mbps average, 302 TCP samples
+[*] Running test 3 on 169.150.252.2:5201 with algorithm cubic
+[x] Server 169.150.252.2:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 3 on 169.150.252.2:5201 with algorithm cubic
+[x] Server 169.150.252.2:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 3 on 169.150.252.2:5201 with algorithm cubic
+[+] 3 169.150.252.2:5201 (Athens, GR) [cubic]: 36.8 Mbps average, 302 TCP samples
+[*] Running test 4 on 23.249.54.234:30002 with algorithm cubic
+[+] 4 23.249.54.234:30002 (Miami, US) [cubic]: 40.0 Mbps average, 301 TCP samples
+[*] Running test 5 on 72.1.86.46:30001 with algorithm cubic
+[x] Error testing 72.1.86.46:30001: Failed to connect control socket to 72.1.86.46:30001: timed out. Trying replacement...
+[*] Running test 5 on speedtest6.cwpanama.net:5505 with algorithm cubic
+[+] 5 speedtest6.cwpanama.net:5505 (Panamá, PA) [cubic]: 35.0 Mbps average, 302 TCP samples
+[*] Running test 6 on speed.netfiber.net.il:5201 with algorithm cubic
+[+] 6 speed.netfiber.net.il:5201 (Jerusalem, IL) [cubic]: 12.1 Mbps average, 302 TCP samples
+[*] Running test 7 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 7 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic]: 35.7 Mbps average, 302 TCP samples
+[*] Running test 8 on 89.187.165.1:5201 with algorithm cubic
+[x] Server 89.187.165.1:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 8 on 89.187.165.1:5201 with algorithm cubic
+[x] Server 89.187.165.1:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 8 on 89.187.165.1:5201 with algorithm cubic
+[x] Server 89.187.165.1:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 8 on 89.187.165.1:5201 with algorithm cubic
+[x] Server 89.187.165.1:5201 remained busy after 3 retries. Trying replacement...
+[*] Running test 8 on 185.246.208.67:5201 with algorithm cubic
+[+] 8 185.246.208.67:5201 (Warsaw, PL) [cubic]: 34.1 Mbps average, 302 TCP samples
+[*] Running test 9 on 185.102.217.170:5201 with algorithm cubic
+[+] 9 185.102.217.170:5201 (Bucharest, RO) [cubic]: 36.6 Mbps average, 302 TCP samples
+[*] Running test 10 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.mtl2.ca.leaseweb.net:5201 is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 10 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.mtl2.ca.leaseweb.net:5201 is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 10 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[x] Server speedtest.mtl2.ca.leaseweb.net:5201 is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 10 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[+] 10 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [cubic]: 40.0 Mbps average, 301 TCP samples
+
+[+] Representative destination(s): ['89.187.162.1:5201 (Singapore, SG)', 'speedtest.hiper.dk:5201 (Copenhagen, DK)', '169.150.252.2:5201 (Athens, GR)', '23.249.54.234:30002 (Miami, US)', 'speedtest6.cwpanama.net:5505 (Panamá, PA)', 'speed.netfiber.net.il:5201 (Jerusalem, IL)', 'man.speedtest.clouvider.net:5200 (Manchester, GB)', '185.246.208.67:5201 (Warsaw, PL)', '185.102.217.170:5201 (Bucharest, RO)', 'speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA)']
+
+[+] Q3: comparing cubic, reno, bbr
+
+[+] Repetition 1/3: cubic -> reno -> bbr
+[*] Running test 11 on 89.187.162.1:5201 with algorithm cubic
+[+] 11 89.187.162.1:5201 (Singapore, SG) [cubic] rep=1 order=1: 37.8 Mbps
+[*] Running test 12 on 89.187.162.1:5201 with algorithm reno
+[+] 12 89.187.162.1:5201 (Singapore, SG) [reno] rep=1 order=2: 22.6 Mbps
+[*] Running test 13 on 89.187.162.1:5201 with algorithm bbr
+[+] 13 89.187.162.1:5201 (Singapore, SG) [bbr] rep=1 order=3: 33.0 Mbps
+[*] Running test 14 on speedtest.hiper.dk:5201 with algorithm cubic
+[+] 14 speedtest.hiper.dk:5201 (Copenhagen, DK) [cubic] rep=1 order=1: 36.7 Mbps
+[*] Running test 15 on speedtest.hiper.dk:5201 with algorithm reno
+[+] 15 speedtest.hiper.dk:5201 (Copenhagen, DK) [reno] rep=1 order=2: 30.0 Mbps
+[*] Running test 16 on speedtest.hiper.dk:5201 with algorithm bbr
+[+] 16 speedtest.hiper.dk:5201 (Copenhagen, DK) [bbr] rep=1 order=3: 39.8 Mbps
+[*] Running test 17 on 169.150.252.2:5201 with algorithm cubic
+[+] 17 169.150.252.2:5201 (Athens, GR) [cubic] rep=1 order=1: 32.6 Mbps
+[*] Running test 18 on 169.150.252.2:5201 with algorithm reno
+[+] 18 169.150.252.2:5201 (Athens, GR) [reno] rep=1 order=2: 29.1 Mbps
+[*] Running test 19 on 169.150.252.2:5201 with algorithm bbr
+[+] 19 169.150.252.2:5201 (Athens, GR) [bbr] rep=1 order=3: 39.9 Mbps
+[*] Running test 20 on 23.249.54.234:30002 with algorithm cubic
+[+] 20 23.249.54.234:30002 (Miami, US) [cubic] rep=1 order=1: 38.3 Mbps
+[*] Running test 21 on 23.249.54.234:30002 with algorithm reno
+[+] 21 23.249.54.234:30002 (Miami, US) [reno] rep=1 order=2: 39.9 Mbps
+[*] Running test 22 on 23.249.54.234:30002 with algorithm bbr
+[+] 22 23.249.54.234:30002 (Miami, US) [bbr] rep=1 order=3: 41.8 Mbps
+[*] Running test 23 on speedtest6.cwpanama.net:5505 with algorithm cubic
+[+] 23 speedtest6.cwpanama.net:5505 (Panamá, PA) [cubic] rep=1 order=1: 38.2 Mbps
+[*] Running test 24 on speedtest6.cwpanama.net:5505 with algorithm reno
+[+] 24 speedtest6.cwpanama.net:5505 (Panamá, PA) [reno] rep=1 order=2: 31.6 Mbps
+[*] Running test 25 on speedtest6.cwpanama.net:5505 with algorithm bbr
+[+] 25 speedtest6.cwpanama.net:5505 (Panamá, PA) [bbr] rep=1 order=3: 40.8 Mbps
+[*] Running test 26 on speed.netfiber.net.il:5201 with algorithm cubic
+[+] 26 speed.netfiber.net.il:5201 (Jerusalem, IL) [cubic] rep=1 order=1: 35.8 Mbps
+[*] Running test 27 on speed.netfiber.net.il:5201 with algorithm reno
+[+] 27 speed.netfiber.net.il:5201 (Jerusalem, IL) [reno] rep=1 order=2: 29.8 Mbps
+[*] Running test 28 on speed.netfiber.net.il:5201 with algorithm bbr
+[+] 28 speed.netfiber.net.il:5201 (Jerusalem, IL) [bbr] rep=1 order=3: 36.9 Mbps
+[*] Running test 29 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 29 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=1 order=1: 31.2 Mbps
+[*] Running test 30 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 30 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=1 order=2: 33.4 Mbps
+[*] Running test 31 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 31 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=1 order=3: 38.1 Mbps
+[*] Running test 32 on 185.246.208.67:5201 with algorithm cubic
+[+] 32 185.246.208.67:5201 (Warsaw, PL) [cubic] rep=1 order=1: 38.1 Mbps
+[*] Running test 33 on 185.246.208.67:5201 with algorithm reno
+[+] 33 185.246.208.67:5201 (Warsaw, PL) [reno] rep=1 order=2: 35.2 Mbps
+[*] Running test 34 on 185.246.208.67:5201 with algorithm bbr
+[+] 34 185.246.208.67:5201 (Warsaw, PL) [bbr] rep=1 order=3: 39.4 Mbps
+[*] Running test 35 on 185.102.217.170:5201 with algorithm cubic
+[+] 35 185.102.217.170:5201 (Bucharest, RO) [cubic] rep=1 order=1: 30.3 Mbps
+[*] Running test 36 on 185.102.217.170:5201 with algorithm reno
+[+] 36 185.102.217.170:5201 (Bucharest, RO) [reno] rep=1 order=2: 32.8 Mbps
+[*] Running test 37 on 185.102.217.170:5201 with algorithm bbr
+[+] 37 185.102.217.170:5201 (Bucharest, RO) [bbr] rep=1 order=3: 38.8 Mbps
+[*] Running test 38 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[+] 38 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [cubic] rep=1 order=1: 38.9 Mbps
+[*] Running test 39 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm reno
+[+] 39 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [reno] rep=1 order=2: 39.9 Mbps
+[*] Running test 40 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm bbr
+[+] 40 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [bbr] rep=1 order=3: 41.6 Mbps
+
+[+] Repetition 2/3: reno -> bbr -> cubic
+[*] Running test 41 on 89.187.162.1:5201 with algorithm reno
+[+] 41 89.187.162.1:5201 (Singapore, SG) [reno] rep=2 order=1: 34.0 Mbps
+[*] Running test 42 on 89.187.162.1:5201 with algorithm bbr
+[+] 42 89.187.162.1:5201 (Singapore, SG) [bbr] rep=2 order=2: 34.3 Mbps
+[*] Running test 43 on 89.187.162.1:5201 with algorithm cubic
+[+] 43 89.187.162.1:5201 (Singapore, SG) [cubic] rep=2 order=3: 32.8 Mbps
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Q3 server speedtest.hiper.dk:5201 [reno] remained busy after 3 retries.
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Q3 server speedtest.hiper.dk:5201 [bbr] remained busy after 3 retries.
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 44 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Q3 server speedtest.hiper.dk:5201 [cubic] remained busy after 3 retries.
+[*] Running test 44 on 169.150.252.2:5201 with algorithm reno
+[+] 44 169.150.252.2:5201 (Athens, GR) [reno] rep=2 order=1: 31.2 Mbps
+[*] Running test 45 on 169.150.252.2:5201 with algorithm bbr
+[+] 45 169.150.252.2:5201 (Athens, GR) [bbr] rep=2 order=2: 39.6 Mbps
+[*] Running test 46 on 169.150.252.2:5201 with algorithm cubic
+[+] 46 169.150.252.2:5201 (Athens, GR) [cubic] rep=2 order=3: 35.9 Mbps
+[*] Running test 47 on 23.249.54.234:30002 with algorithm reno
+[+] 47 23.249.54.234:30002 (Miami, US) [reno] rep=2 order=1: 39.9 Mbps
+[*] Running test 48 on 23.249.54.234:30002 with algorithm bbr
+[+] 48 23.249.54.234:30002 (Miami, US) [bbr] rep=2 order=2: 42.0 Mbps
+[*] Running test 49 on 23.249.54.234:30002 with algorithm cubic
+[+] 49 23.249.54.234:30002 (Miami, US) [cubic] rep=2 order=3: 38.0 Mbps
+[*] Running test 50 on speedtest6.cwpanama.net:5505 with algorithm reno
+[+] 50 speedtest6.cwpanama.net:5505 (Panamá, PA) [reno] rep=2 order=1: 27.8 Mbps
+[*] Running test 51 on speedtest6.cwpanama.net:5505 with algorithm bbr
+[+] 51 speedtest6.cwpanama.net:5505 (Panamá, PA) [bbr] rep=2 order=2: 40.8 Mbps
+[*] Running test 52 on speedtest6.cwpanama.net:5505 with algorithm cubic
+[+] 52 speedtest6.cwpanama.net:5505 (Panamá, PA) [cubic] rep=2 order=3: 36.5 Mbps
+[*] Running test 53 on speed.netfiber.net.il:5201 with algorithm reno
+[+] 53 speed.netfiber.net.il:5201 (Jerusalem, IL) [reno] rep=2 order=1: 26.1 Mbps
+[*] Running test 54 on speed.netfiber.net.il:5201 with algorithm bbr
+[+] 54 speed.netfiber.net.il:5201 (Jerusalem, IL) [bbr] rep=2 order=2: 37.2 Mbps
+[*] Running test 55 on speed.netfiber.net.il:5201 with algorithm cubic
+[+] 55 speed.netfiber.net.il:5201 (Jerusalem, IL) [cubic] rep=2 order=3: 37.6 Mbps
+[*] Running test 56 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 56 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=2 order=1: 28.3 Mbps
+[*] Running test 57 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 57 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=2 order=2: 38.1 Mbps
+[*] Running test 58 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 58 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=2 order=3: 30.9 Mbps
+[*] Running test 59 on 185.246.208.67:5201 with algorithm reno
+[+] 59 185.246.208.67:5201 (Warsaw, PL) [reno] rep=2 order=1: 34.4 Mbps
+[*] Running test 60 on 185.246.208.67:5201 with algorithm bbr
+[+] 60 185.246.208.67:5201 (Warsaw, PL) [bbr] rep=2 order=2: 38.6 Mbps
+[*] Running test 61 on 185.246.208.67:5201 with algorithm cubic
+[+] 61 185.246.208.67:5201 (Warsaw, PL) [cubic] rep=2 order=3: 33.7 Mbps
+[*] Running test 62 on 185.102.217.170:5201 with algorithm reno
+[+] 62 185.102.217.170:5201 (Bucharest, RO) [reno] rep=2 order=1: 28.6 Mbps
+[*] Running test 63 on 185.102.217.170:5201 with algorithm bbr
+[+] 63 185.102.217.170:5201 (Bucharest, RO) [bbr] rep=2 order=2: 38.7 Mbps
+[*] Running test 64 on 185.102.217.170:5201 with algorithm cubic
+[+] 64 185.102.217.170:5201 (Bucharest, RO) [cubic] rep=2 order=3: 36.2 Mbps
+[*] Running test 65 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm reno
+[+] 65 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [reno] rep=2 order=1: 39.4 Mbps
+[*] Running test 66 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm bbr
+[+] 66 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [bbr] rep=2 order=2: 41.2 Mbps
+[*] Running test 67 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[+] 67 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [cubic] rep=2 order=3: 39.1 Mbps
+
+[+] Repetition 3/3: bbr -> cubic -> reno
+[*] Running test 68 on 89.187.162.1:5201 with algorithm bbr
+[x] Q3 failed: 89.187.162.1:5201 [bbr]: Connection closed while sending to data socket: [Errno 32] Broken pipe
+[*] Running test 68 on 89.187.162.1:5201 with algorithm cubic
+[+] 68 89.187.162.1:5201 (Singapore, SG) [cubic] rep=3 order=2: 32.7 Mbps
+[*] Running test 69 on 89.187.162.1:5201 with algorithm reno
+[+] 69 89.187.162.1:5201 (Singapore, SG) [reno] rep=3 order=3: 34.4 Mbps
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Server speedtest.hiper.dk:5201 [bbr] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm bbr
+[x] Q3 server speedtest.hiper.dk:5201 [bbr] remained busy after 3 retries.
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Server speedtest.hiper.dk:5201 [cubic] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm cubic
+[x] Q3 server speedtest.hiper.dk:5201 [cubic] remained busy after 3 retries.
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (1/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (2/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Server speedtest.hiper.dk:5201 [reno] is busy. Retrying in 2 seconds (3/3)...
+[*] Running test 70 on speedtest.hiper.dk:5201 with algorithm reno
+[x] Q3 server speedtest.hiper.dk:5201 [reno] remained busy after 3 retries.
+[*] Running test 70 on 169.150.252.2:5201 with algorithm bbr
+[+] 70 169.150.252.2:5201 (Athens, GR) [bbr] rep=3 order=1: 36.5 Mbps
+[*] Running test 71 on 169.150.252.2:5201 with algorithm cubic
+[+] 71 169.150.252.2:5201 (Athens, GR) [cubic] rep=3 order=2: 37.2 Mbps
+[*] Running test 72 on 169.150.252.2:5201 with algorithm reno
+[+] 72 169.150.252.2:5201 (Athens, GR) [reno] rep=3 order=3: 28.4 Mbps
+[*] Running test 73 on 23.249.54.234:30002 with algorithm bbr
+[+] 73 23.249.54.234:30002 (Miami, US) [bbr] rep=3 order=1: 40.0 Mbps
+[*] Running test 74 on 23.249.54.234:30002 with algorithm cubic
+[+] 74 23.249.54.234:30002 (Miami, US) [cubic] rep=3 order=2: 35.9 Mbps
+[*] Running test 75 on 23.249.54.234:30002 with algorithm reno
+[+] 75 23.249.54.234:30002 (Miami, US) [reno] rep=3 order=3: 38.4 Mbps
+[*] Running test 76 on speedtest6.cwpanama.net:5505 with algorithm bbr
+[+] 76 speedtest6.cwpanama.net:5505 (Panamá, PA) [bbr] rep=3 order=1: 37.6 Mbps
+[*] Running test 77 on speedtest6.cwpanama.net:5505 with algorithm cubic
+[+] 77 speedtest6.cwpanama.net:5505 (Panamá, PA) [cubic] rep=3 order=2: 37.8 Mbps
+[*] Running test 78 on speedtest6.cwpanama.net:5505 with algorithm reno
+[+] 78 speedtest6.cwpanama.net:5505 (Panamá, PA) [reno] rep=3 order=3: 25.3 Mbps
+[*] Running test 79 on speed.netfiber.net.il:5201 with algorithm bbr
+[+] 79 speed.netfiber.net.il:5201 (Jerusalem, IL) [bbr] rep=3 order=1: 29.8 Mbps
+[*] Running test 80 on speed.netfiber.net.il:5201 with algorithm cubic
+[+] 80 speed.netfiber.net.il:5201 (Jerusalem, IL) [cubic] rep=3 order=2: 34.2 Mbps
+[*] Running test 81 on speed.netfiber.net.il:5201 with algorithm reno
+[+] 81 speed.netfiber.net.il:5201 (Jerusalem, IL) [reno] rep=3 order=3: 23.9 Mbps
+[*] Running test 82 on man.speedtest.clouvider.net:5200 with algorithm bbr
+[+] 82 man.speedtest.clouvider.net:5200 (Manchester, GB) [bbr] rep=3 order=1: 39.3 Mbps
+[*] Running test 83 on man.speedtest.clouvider.net:5200 with algorithm cubic
+[+] 83 man.speedtest.clouvider.net:5200 (Manchester, GB) [cubic] rep=3 order=2: 33.8 Mbps
+[*] Running test 84 on man.speedtest.clouvider.net:5200 with algorithm reno
+[+] 84 man.speedtest.clouvider.net:5200 (Manchester, GB) [reno] rep=3 order=3: 21.8 Mbps
+[*] Running test 85 on 185.246.208.67:5201 with algorithm bbr
+[+] 85 185.246.208.67:5201 (Warsaw, PL) [bbr] rep=3 order=1: 31.2 Mbps
+[*] Running test 86 on 185.246.208.67:5201 with algorithm cubic
+[+] 86 185.246.208.67:5201 (Warsaw, PL) [cubic] rep=3 order=2: 36.1 Mbps
+[*] Running test 87 on 185.246.208.67:5201 with algorithm reno
+[+] 87 185.246.208.67:5201 (Warsaw, PL) [reno] rep=3 order=3: 34.9 Mbps
+[*] Running test 88 on 185.102.217.170:5201 with algorithm bbr
+[+] 88 185.102.217.170:5201 (Bucharest, RO) [bbr] rep=3 order=1: 39.4 Mbps
+[*] Running test 89 on 185.102.217.170:5201 with algorithm cubic
+[+] 89 185.102.217.170:5201 (Bucharest, RO) [cubic] rep=3 order=2: 37.0 Mbps
+[*] Running test 90 on 185.102.217.170:5201 with algorithm reno
+[+] 90 185.102.217.170:5201 (Bucharest, RO) [reno] rep=3 order=3: 32.2 Mbps
+[*] Running test 91 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm bbr
+[+] 91 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [bbr] rep=3 order=1: 41.2 Mbps
+[*] Running test 92 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm cubic
+[+] 92 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [cubic] rep=3 order=2: 39.7 Mbps
+[*] Running test 93 on speedtest.mtl2.ca.leaseweb.net:5201 with algorithm reno
+[+] 93 speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) [reno] rep=3 order=3: 37.7 Mbps
+
+[+] Q1/Q2 default congestion control
+
+[+] Goodput (Mbps)
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] destination                                        algorithm       min   median     mean      p95
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] 89.187.162.1:5201 (Singapore, SG)                  cubic          0.00    34.94    34.21    43.02
+[+] speedtest.hiper.dk:5201 (Copenhagen, DK)           cubic          0.00    38.17    36.11    45.01
+[+] 169.150.252.2:5201 (Athens, GR)                    cubic          0.00    36.85    36.41    43.62
+[+] 23.249.54.234:30002 (Miami, US)                    cubic          2.14    41.70    39.63    44.85
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          cubic          0.00    34.93    34.53    45.81
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         cubic          0.00     8.51    11.68    30.00
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.00    36.37    35.24    45.11
+[+] 185.246.208.67:5201 (Warsaw, PL)                   cubic          0.00    33.99    33.69    43.38
+[+] 185.102.217.170:5201 (Bucharest, RO)               cubic          0.00    38.40    36.20    44.07
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) cubic          8.16    41.98    39.57    44.69
+
+[+] Q3 congestion control comparison
+
+[+] Goodput (Mbps)
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] destination                                        algorithm       min   median     mean      p95
+[+] ------------------------------------------------------------------------------------------------------------------------
+[+] 89.187.162.1:5201 (Singapore, SG)                  cubic          0.00    38.17    37.42    44.14
+[+] 89.187.162.1:5201 (Singapore, SG)                  reno           0.00    21.17    22.22    35.39
+[+] 89.187.162.1:5201 (Singapore, SG)                  bbr            0.00    32.47    32.58    87.06
+[+] speedtest.hiper.dk:5201 (Copenhagen, DK)           cubic          0.00    37.91    36.35    44.02
+[+] speedtest.hiper.dk:5201 (Copenhagen, DK)           reno           0.00    29.67    29.65    40.77
+[+] speedtest.hiper.dk:5201 (Copenhagen, DK)           bbr            0.00    39.63    39.39    89.44
+[+] 169.150.252.2:5201 (Athens, GR)                    cubic          0.00    31.18    32.26    43.72
+[+] 169.150.252.2:5201 (Athens, GR)                    reno           0.00    28.32    28.72    40.10
+[+] 169.150.252.2:5201 (Athens, GR)                    bbr            0.00    38.92    39.57    92.23
+[+] 23.249.54.234:30002 (Miami, US)                    cubic          4.05    39.71    37.89    44.19
+[+] 23.249.54.234:30002 (Miami, US)                    reno           0.00    42.34    39.51    44.14
+[+] 23.249.54.234:30002 (Miami, US)                    bbr            0.00    41.36    41.48    64.86
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          cubic          0.00    41.77    37.72    44.61
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          reno           0.00    32.49    31.15    43.16
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          bbr            0.00    39.33    40.38    87.87
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         cubic          0.00    37.54    35.45    44.43
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         reno           0.00    29.48    29.51    37.84
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         bbr            0.00    34.59    36.61    97.16
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.00    28.22    30.83    44.36
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           0.00    33.63    33.03    42.99
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.00    34.14    37.63    94.19
+[+] 185.246.208.67:5201 (Warsaw, PL)                   cubic          0.00    39.32    37.68    44.19
+[+] 185.246.208.67:5201 (Warsaw, PL)                   reno           0.00    36.27    34.80    43.28
+[+] 185.246.208.67:5201 (Warsaw, PL)                   bbr            0.00    37.48    38.90    98.94
+[+] 185.102.217.170:5201 (Bucharest, RO)               cubic          0.00    28.15    29.90    44.78
+[+] 185.102.217.170:5201 (Bucharest, RO)               reno           0.00    31.79    32.38    43.21
+[+] 185.102.217.170:5201 (Bucharest, RO)               bbr            0.00    36.09    38.38    95.87
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) cubic          4.05    41.53    38.52    43.61
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) reno           0.00    42.33    39.54    43.19
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) bbr            0.00    41.43    41.27    63.55
+[+] 89.187.162.1:5201 (Singapore, SG)                  reno           0.00    34.61    33.63    41.96
+[+] 89.187.162.1:5201 (Singapore, SG)                  bbr            0.00    35.73    34.03    86.55
+[+] 89.187.162.1:5201 (Singapore, SG)                  cubic          0.00    32.79    32.47    45.52
+[+] 169.150.252.2:5201 (Athens, GR)                    reno           0.00    30.98    30.82    42.19
+[+] 169.150.252.2:5201 (Athens, GR)                    bbr            0.00    39.85    39.20    89.78
+[+] 169.150.252.2:5201 (Athens, GR)                    cubic          0.00    36.02    35.55    42.92
+[+] 23.249.54.234:30002 (Miami, US)                    reno           0.00    42.17    39.47    43.34
+[+] 23.249.54.234:30002 (Miami, US)                    bbr            3.13    41.47    41.58    62.56
+[+] 23.249.54.234:30002 (Miami, US)                    cubic          3.69    41.50    37.57    43.67
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          reno           0.00    27.00    27.44    42.74
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          bbr            0.00    40.54    40.55    73.30
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          cubic          0.00    36.79    36.05    43.35
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         reno           0.00    27.63    25.71    40.32
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         bbr            0.00    39.49    36.73    89.33
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         cubic          0.00    38.17    37.21    43.38
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           0.00    26.41    27.89    42.27
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.00    33.53    37.63    92.72
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.00    29.12    30.47    43.67
+[+] 185.246.208.67:5201 (Warsaw, PL)                   reno           0.00    35.22    34.01    42.92
+[+] 185.246.208.67:5201 (Warsaw, PL)                   bbr            0.00    39.26    38.15   100.39
+[+] 185.246.208.67:5201 (Warsaw, PL)                   cubic          0.00    33.53    33.30    42.72
+[+] 185.102.217.170:5201 (Bucharest, RO)               reno           0.00    28.27    28.14    40.77
+[+] 185.102.217.170:5201 (Bucharest, RO)               bbr            0.00    36.28    38.39    94.13
+[+] 185.102.217.170:5201 (Bucharest, RO)               cubic          0.00    37.53    35.80    43.26
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) reno           0.00    41.58    38.98    42.78
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) bbr            4.81    41.13    40.81    56.87
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) cubic          4.11    40.31    38.79    43.05
+[+] 89.187.162.1:5201 (Singapore, SG)                  cubic          0.00    32.72    32.39    42.13
+[+] 89.187.162.1:5201 (Singapore, SG)                  reno           0.00    35.98    34.06    42.09
+[+] 169.150.252.2:5201 (Athens, GR)                    bbr            0.00    30.70    35.99   104.03
+[+] 169.150.252.2:5201 (Athens, GR)                    cubic          0.00    37.84    36.86    42.80
+[+] 169.150.252.2:5201 (Athens, GR)                    reno           0.00    27.92    28.06    40.87
+[+] 23.249.54.234:30002 (Miami, US)                    bbr            0.00    41.07    39.64    57.37
+[+] 23.249.54.234:30002 (Miami, US)                    cubic          3.93    35.92    35.47    42.61
+[+] 23.249.54.234:30002 (Miami, US)                    reno           0.00    41.52    38.02    42.62
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          bbr            0.00    38.54    37.30    77.18
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          cubic          0.57    39.66    37.34    43.17
+[+] speedtest6.cwpanama.net:5505 (Panamá, PA)          reno           0.00    26.24    24.94    39.25
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         bbr            0.00    16.19    29.72   109.26
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         cubic          0.00    35.32    33.84    43.00
+[+] speed.netfiber.net.il:5201 (Jerusalem, IL)         reno           0.00    23.38    23.49    32.63
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  bbr            0.00    37.12    39.01    85.79
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  cubic          0.00    34.22    33.44    42.29
+[+] man.speedtest.clouvider.net:5200 (Manchester, GB)  reno           0.00    21.89    21.36    39.57
+[+] 185.246.208.67:5201 (Warsaw, PL)                   bbr            0.00    30.46    30.84    80.93
+[+] 185.246.208.67:5201 (Warsaw, PL)                   cubic          0.00    38.04    35.44    42.93
+[+] 185.246.208.67:5201 (Warsaw, PL)                   reno           0.00    36.61    34.48    42.63
+[+] 185.102.217.170:5201 (Bucharest, RO)               bbr            0.00    39.57    39.12    77.41
+[+] 185.102.217.170:5201 (Bucharest, RO)               cubic          0.00    37.23    36.61    42.74
+[+] 185.102.217.170:5201 (Bucharest, RO)               reno           0.00    32.41    31.84    41.96
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) bbr            5.15    41.12    40.79    56.21
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) cubic          0.00    41.06    39.34    42.75
+[+] speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA) reno           0.00    41.06    37.33    42.92
+
+[+] Experiment summary
+[+] Q1/Q2 destinations: 10/10
+[+] Q1/Q2 failed servers: 3
+[+] Q3 expected runs: 90
+[+] Q3 completed runs: 83
+[+] Q3 missing runs: 7
+[+] Q3 failed attempts: 7
+[x] speedtest.hiper.dk:5201 [reno] rep=2: Server is busy
+[x] speedtest.hiper.dk:5201 [bbr] rep=2: Server is busy
+[x] speedtest.hiper.dk:5201 [cubic] rep=2: Server is busy
+[x] 89.187.162.1:5201 [bbr] rep=3: Connection closed while sending to data socket: [Errno 32] Broken pipe
+[x] speedtest.hiper.dk:5201 [bbr] rep=3: Server is busy
+[x] speedtest.hiper.dk:5201 [cubic] rep=3: Server is busy
+[x] speedtest.hiper.dk:5201 [reno] rep=3: Server is busy
+
+[+] Done! Wrote results to 'results'/
