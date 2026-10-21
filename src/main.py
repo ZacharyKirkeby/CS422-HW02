@@ -875,8 +875,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
             plt.close()
             #plt.show()
         
-	
-
 def main():
 	if not sys.platform.startswith("linux"):
 		sys.exit("This script must be run on Linux")
@@ -890,27 +888,31 @@ def main():
 
 	destinations = load_destinations(args.f)
 	random.shuffle(destinations)
+	os.makedirs(args.out_dir, exist_ok=True)
 
 	# Q1 / Q2 shit
 	default_runs, selected_destinations, default_failures = (
-		run_default_tests(destinations)
-	)
+        run_default_tests(destinations)
+    )
+
+    # save failed Q1/Q2 attempts
+	if default_failures:
+		with open(os.path.join(args.out_dir, "default_failures.csv"), "w", newline="") as f:
+			writer = csv.DictWriter(f, fieldnames=["destination", "reason"])
+			writer.writeheader()
+			writer.writerows(default_failures)
 
 	if len(default_runs) <= 0:
 		print("No default congestion-control tests completed.")
 		return
 
-	#representative_destination = default_runs[0]["destination"]
 	representative_destination = []
 	for dest in default_runs:
 		representative_destination.append(dest["destination"])
 
-	print(
-		f"\n[+] Representative destination(s): "
-		f"{representative_destination}"
-	)
-    
-	# Q3 - all 3 algos
+	print(f"\n[+] Representative destination(s): "f"{representative_destination}")
+
+    # Q3 - all 3 algos
 	comparison_runs_arr = []
 	comparison_runs = []
 	comparison_failures = []
@@ -926,55 +928,71 @@ def main():
 		]
 	else:
 		print(
-			"\n[+] No --algorithms provided; "
-			"skipping Q3 comparison tests."
-		)
+            "\n[+] No --algorithms provided; "
+            "skipping Q3 comparison tests."
+        )
 
-	os.makedirs(args.out_dir, exist_ok=True)
-	if default_failures:
-		with open(os.path.join(args.out_dir, "default_failures.csv"), "w", newline="") as f:
-			writer = csv.DictWriter(f, fieldnames=["destination", "reason"])
-			writer.writeheader()
-			writer.writerows(default_failures)
-			
+    # combine the two phases only for raw output
+	runs = default_runs + comparison_runs
 	write_samples(runs, os.path.join(args.out_dir, "tcp_samples.csv"))
-	
-	# Q1/Q2 summary
+
+    # Q1/Q2 summary
 	default_summary = make_summary(default_runs)
 
 	write_summary(default_summary,
-		os.path.join(args.out_dir, "default_goodput_summary.csv"))
+        os.path.join(args.out_dir, "default_goodput_summary.csv"))
 	print("\n[+] Q1/Q2 default congestion control")
 	print_summary(default_summary)
-    
-	if len(default_runs) > 0:
-    	# plot base graphs
-		default_algo = [];
-		default_algo.append(default_runs[0]['algorithm'])
-		make_plots(default_runs, default_summary, default_algo, representative_destination, "representative_plots", args.out_dir)
-	else:
-		print("WARNING: No representative runs to graph.");
 
-	# Q3 summary
+    # plot base graphs
+	default_algo = [default_runs[0]["algorithm"]]
+	make_plots(default_runs, default_summary, default_algo,
+        representative_destination, "representative_plots", args.out_dir)
+
+    # Q3 summary
 	if len(comparison_runs) > 0:
 		comparison_summary = make_summary(comparison_runs)
+
 		write_summary(comparison_summary,
-			os.path.join(args.out_dir, "comparison_goodput_summary.csv"))
+            os.path.join(args.out_dir, "comparison_goodput_summary.csv"))
 		print("\n[+] Q3 congestion control comparison")
 		print_summary(comparison_summary)
-        
-		# plot comparison graphs
+
+        # plot comparison graphs separately by repetition
 		for i, repetition_runs in enumerate(comparison_runs_arr):
 			if not repetition_runs:
 				continue
 			make_plots(repetition_runs, make_summary(repetition_runs), algorithms, representative_destination, f"comparison_plots_rep_{i + 1}", args.out_dir)
 
+    # Q3 failure logging
+	if comparison_failures:
+		with open(os.path.join(args.out_dir, "comparison_failures.csv"), "w", newline="") as f:
+			writer = csv.DictWriter(f, fieldnames=["destination", "algorithm", "repetition", "reason"])
+			writer.writeheader()
+			writer.writerows(comparison_failures)
 
-	print(
-		f"\n[+] Done! Wrote results to "
-		f"'{args.out_dir}'/"
-	)
-	print(f"\n[+] Done! Wrote TCP samples and summary to '{args.out_dir}'/")
+    # final experiment summary
+	print("\n[+] Experiment summary")
+	print(f"[+] Q1/Q2 destinations: {len(default_runs)}/{args.num_tests}")
+	print(f"[+] Q1/Q2 failed servers: {len(default_failures)}")
+
+	if len(algorithms) > 0:
+		expected = len(selected_destinations) * len(algorithms) * args.repetitions
+		completed = len(comparison_runs)
+
+		print(f"[+] Q3 expected runs: {expected}")
+		print(f"[+] Q3 completed runs: {completed}")
+		print(f"[+] Q3 missing runs: {expected - completed}")
+		print(f"[+] Q3 failed attempts: {len(comparison_failures)}")
+
+		for failure in comparison_failures:
+			print(
+                f"[x] {failure['destination']} "
+                f"[{failure['algorithm']}] "
+                f"rep={failure['repetition']}: {failure['reason']}"
+            )
+
+	print(f"\n[+] Done! Wrote results to '{args.out_dir}'/")
 
 if __name__ == "__main__":
 	main()
