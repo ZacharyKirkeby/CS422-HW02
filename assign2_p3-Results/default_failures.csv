@@ -1,0 +1,4 @@
+destination,reason
+iperf1.surfwireless.nl:5201,Connection closed while sending to data socket: [Errno 32] Broken pipe
+72.1.86.46:30001,Failed to connect control socket to 72.1.86.46:30001: timed out
+89.187.165.1:5201,Server is busy

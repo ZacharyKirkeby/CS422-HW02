@@ -1,0 +1,8 @@
+destination,algorithm,repetition,reason
+speedtest.hiper.dk:5201,reno,2,Server is busy
+speedtest.hiper.dk:5201,bbr,2,Server is busy
+speedtest.hiper.dk:5201,cubic,2,Server is busy
+89.187.162.1:5201,bbr,3,Connection closed while sending to data socket: [Errno 32] Broken pipe
+speedtest.hiper.dk:5201,bbr,3,Server is busy
+speedtest.hiper.dk:5201,cubic,3,Server is busy
+speedtest.hiper.dk:5201,reno,3,Server is busy

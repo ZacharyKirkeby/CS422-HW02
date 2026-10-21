@@ -1,0 +1,11 @@
+run_id,destination,algorithm,min_mbps,median_mbps,mean_mbps,p95_mbps
+1,"89.187.162.1:5201 (Singapore, SG)",cubic,0.0,34.94,34.21,43.02
+2,"speedtest.hiper.dk:5201 (Copenhagen, DK)",cubic,0.0,38.17,36.11,45.01
+3,"169.150.252.2:5201 (Athens, GR)",cubic,0.0,36.85,36.41,43.62
+4,"23.249.54.234:30002 (Miami, US)",cubic,2.14,41.7,39.63,44.85
+5,"speedtest6.cwpanama.net:5505 (Panamá, PA)",cubic,0.0,34.93,34.53,45.81
+6,"speed.netfiber.net.il:5201 (Jerusalem, IL)",cubic,0.0,8.51,11.68,30.0
+7,"man.speedtest.clouvider.net:5200 (Manchester, GB)",cubic,0.0,36.37,35.24,45.11
+8,"185.246.208.67:5201 (Warsaw, PL)",cubic,0.0,33.99,33.69,43.38
+9,"185.102.217.170:5201 (Bucharest, RO)",cubic,0.0,38.4,36.2,44.07
+10,"speedtest.mtl2.ca.leaseweb.net:5201 (Montreal, CA)",cubic,8.16,41.98,39.57,44.69
