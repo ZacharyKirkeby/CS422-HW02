@@ -233,12 +233,7 @@ def run_one(dest, algorithm, run_id, phase="default", repetition=1, test_order=1
 		"destination": destination,
 		"algorithm": used_algorithm,
 		"avg_send_rate_mbps": mbps,
-		"rows": make_rows(
-			run_id,
-			destination,
-			used_algorithm,
-			samples
-		),
+		"rows": make_rows(run_id, destination, used_algorithm, samples),
 	}
 	return run
 
@@ -285,7 +280,7 @@ def run_default_tests(destinations):
 	for dest in destinations:
 		if len(selected_destinations) >= args.num_tests:
 			break
-		if attempts >= args.num_tests * 3:
+		if attempts >= args.max_attempts:
 			break
 		attempts += 1
 		busy_attempts = 0
@@ -362,129 +357,92 @@ def run_default_tests(destinations):
 
 	return runs, selected_destinations, failures
 
-def run_comparison_tests(
-	selected_destinations,
-	algorithms,
-	start_run_id
-):
-	runs = []
-	failures = []
-	run_id = start_run_id
+def run_comparison_tests(selected_destinations, algorithms, start_run_id):
+    comparison_runs_arr = [[] for _ in range(args.repetitions)]
+    failures = []
+    run_id = start_run_id
 
-	print(
-		f"\n[+] Q3: comparing "
-		f"{', '.join(algorithms)}"
-	)
+    print(f"\n[+] Q3: comparing {', '.join(algorithms)}")
 
-	for repetition in range(1, args.repetitions + 1):
-		# rotate algorithm order so one algorithm does not always run first
-		offset = (
-			(repetition - 1)
-			% len(algorithms)
-		)
+    for repetition in range(1, args.repetitions + 1):
+        # rotate algorithm order so one algorithm does not always run first
+        offset = (repetition - 1) % len(algorithms)
+        ordered_algorithms = algorithms[offset:] + algorithms[:offset]
 
-		ordered_algorithms = (
-			algorithms[offset:]
-			+ algorithms[:offset]
-		)
+        print(
+            f"\n[+] Repetition {repetition}/{args.repetitions}: "
+            f"{' -> '.join(ordered_algorithms)}"
+        )
 
-		print(
-			f"\n[+] Repetition {repetition}/"
-			f"{args.repetitions}: "
-			f"{' -> '.join(ordered_algorithms)}"
-		)
+        for dest in selected_destinations:
+            for test_order, algorithm in enumerate(ordered_algorithms, start=1):
+                busy_attempts = 0
+                while True:
+                    try:
+                        run = run_one(dest, algorithm, run_id, phase="comparison", repetition=repetition, test_order=test_order)
+                        # Store the run in its corresponding repetition
+                        comparison_runs_arr[repetition - 1].append(run)
+                        print(
+                            f"[+] {run_id} {run['destination']} "
+                            f"[{run['algorithm']}] "
+                            f"rep={repetition} order={test_order}: "
+                            f"{run['avg_send_rate_mbps']:.1f} Mbps"
+                        )
+                        run_id += 1
+                        break
 
-		for dest in selected_destinations:
-			for test_order, algorithm in enumerate(
-				ordered_algorithms,
-				start=1
-			):
-				busy_attempts = 0
+                    except iperf3jank.Iperf3ServerBusyException as e:
+                        busy_attempts += 1
 
-				while True:
-					try:
-						run = run_one(
-							dest,
-							algorithm,
-							run_id,
-							phase="comparison",
-							repetition=repetition,
-							test_order=test_order
-						)
+                        if busy_attempts > 3:
+                            destination = (
+                                f"{dest['IP/HOST']}:"
+                                f"{get_first_port(dest['PORT'])}"
+                            )
+                            print(
+                                f"[x] Q3 server {destination} "
+                                f"[{algorithm}] remained busy after 3 retries."
+                            )
+                            failures.append({
+                                "destination": destination,
+                                "algorithm": algorithm,
+                                "repetition": repetition,
+                                "reason": str(e),
+                            })
+                            break
+                        print(
+                            f"[x] Server {dest['IP/HOST']}:"
+                            f"{get_first_port(dest['PORT'])} "
+                            f"[{algorithm}] is busy. "
+                            f"Retrying in 2 seconds ({busy_attempts}/3)..."
+                        )
 
-						runs.append(run)
+                        time.sleep(2)
 
-						print(
-							f"[+] {run_id} "
-							f"{run['destination']} "
-							f"[{run['algorithm']}] "
-							f"rep={repetition} "
-							f"order={test_order}: "
-							f"{run['avg_send_rate_mbps']:.1f} Mbps"
-						)
+                    except iperf3jank.Iperf3Exception as e:
+                        destination = (
+                            f"{dest['IP/HOST']}:"
+                            f"{get_first_port(dest['PORT'])}"
+                        )
 
-						run_id += 1
-						break
+                        print(
+                            f"[x] Q3 failed: {destination} "
+                            f"[{algorithm}]: {e}"
+                        )
 
-					except iperf3jank.Iperf3ServerBusyException as e:
-						busy_attempts += 1
+                        failures.append({
+                            "destination": destination,
+                            "algorithm": algorithm,
+                            "repetition": repetition,
+                            "reason": str(e),
+                        })
+                        break
 
-						if busy_attempts > 3:
-							destination = (
-								f"{dest['IP/HOST']}:"
-								f"{get_first_port(dest['PORT'])}"
-							)
+                # let public server/path settle before next test
+                time.sleep(1)
 
-							print(
-								f"[x] Q3 server {destination} "
-								f"[{algorithm}] remained busy "
-								f"after 3 retries."
-							)
+    return comparison_runs_arr, failures
 
-							failures.append({
-								"destination": destination,
-								"algorithm": algorithm,
-								"repetition": repetition,
-								"reason": str(e),
-							})
-
-							break
-
-						print(
-							f"[x] Server {dest['IP/HOST']}:"
-							f"{get_first_port(dest['PORT'])} "
-							f"[{algorithm}] is busy. "
-							f"Retrying in 2 seconds "
-							f"({busy_attempts}/3)..."
-						)
-
-						time.sleep(2)
-
-					except iperf3jank.Iperf3Exception as e:
-						destination = (
-							f"{dest['IP/HOST']}:"
-							f"{get_first_port(dest['PORT'])}"
-						)
-
-						print(
-							f"[x] Q3 failed: "
-							f"{destination} "
-							f"[{algorithm}]: {e}"
-						)
-
-						failures.append({
-							"destination": destination,
-							"algorithm": algorithm,
-							"repetition": repetition,
-							"reason": str(e),
-						})
-
-						break
-
-				# let public server/path settle before next test
-				time.sleep(1)
-
-	return runs, failures
 
 # output stuff
 
@@ -654,11 +612,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
             destination_data[d][a]['cwnds_interval'] = []
             destination_data[d][a]['rtts_interval'] = []
     
-    
-    ###############################################################################################
-    # PREPROCESSING STEP: fill up 'destination_data' with per-algorithm data for each destination #
-    ###############################################################################################
-    
     for run in runs:
         """
         cwnds = []
@@ -674,7 +627,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
         cwnds_interval = []
         rtts_interval = []
         """
-        
         
         # check if we should use this run
         #if run['run_id'] in range(run_range[0], run_range[1]):
@@ -730,12 +682,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
             destination_data[run_dest][run_algo]['alltimes_interval'] += newtimes
             destination_data[run_dest][run_algo]['cwnds_interval'] += newcwnd
             destination_data[run_dest][run_algo]['rtts_interval'] += newrtt
-    
-    
-    
-    ##############################
-    # actual plotting stuff time #
-    ##############################
     
     # label names
     alltimes_label = "Time Elapsed (s)"
@@ -834,11 +780,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
             # Plot each graph (line or scatter) for this specific destination.
             # The data will be labeled/separated on a per-algorithm basis.
             
-            
-            ###############
-            # LINE GRAPHS #
-            ###############
-            
             #times, cwnd = get_series(runs, "snd_cwnd_pkts")
             # plot data per algo for this destination
             for algorithm in destination_data[destination]:
@@ -893,11 +834,6 @@ def make_plots(runs, summary, algorithms, representative_destinations, file_name
             plt.close()
             #plt.show()
             
-            
-            ################
-            # SCATTERPLOTS #
-            ################
-
             #plt.scatter(goodputs, cwnds_interval)
             # plot data per algo for this destination
             for algorithm in destination_data[destination]:
@@ -960,7 +896,7 @@ def main():
 		run_default_tests(destinations)
 	)
 
-	if len(default_runs) == 0:
+	if len(default_runs) <= 0:
 		print("No default congestion-control tests completed.")
 		return
 
@@ -974,24 +910,33 @@ def main():
 		f"{representative_destination}"
 	)
     
-    
-
 	# Q3 - all 3 algos
+	comparison_runs_arr = []
 	comparison_runs = []
 	comparison_failures = []
+
 	if len(algorithms) > 0:
-		comparison_runs, comparison_failures = (
-			run_comparison_tests(selected_destinations, algorithms, len(default_runs) + 1))
+		comparison_runs_arr, comparison_failures = run_comparison_tests(
+			selected_destinations, algorithms, len(default_runs) + 1
+		)
+		comparison_runs = [
+			run
+			for repetition_runs in comparison_runs_arr
+			for run in repetition_runs
+		]
 	else:
 		print(
 			"\n[+] No --algorithms provided; "
 			"skipping Q3 comparison tests."
 		)
-		os.makedirs(args.out_dir, exist_ok=True)
 
-	# combine the two phases only for raw output
-	runs = default_runs + comparison_runs
-
+	os.makedirs(args.out_dir, exist_ok=True)
+	if default_failures:
+		with open(os.path.join(args.out_dir, "default_failures.csv"), "w", newline="") as f:
+			writer = csv.DictWriter(f, fieldnames=["destination", "reason"])
+			writer.writeheader()
+			writer.writerows(default_failures)
+			
 	write_samples(runs, os.path.join(args.out_dir, "tcp_samples.csv"))
 	
 	# Q1/Q2 summary
@@ -1019,7 +964,11 @@ def main():
 		print_summary(comparison_summary)
         
 		# plot comparison graphs
-		make_plots(comparison_runs, comparison_summary, algorithms, representative_destination, "comparison_plots", args.out_dir)
+		for i, repetition_runs in enumerate(comparison_runs_arr):
+			if not repetition_runs:
+				continue
+			make_plots(repetition_runs, make_summary(repetition_runs), algorithms, representative_destination, f"comparison_plots_rep_{i + 1}", args.out_dir)
+
 
 	print(
 		f"\n[+] Done! Wrote results to "
