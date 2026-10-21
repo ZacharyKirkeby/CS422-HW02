@@ -1,0 +1,21 @@
+run_id,destination,algorithm,min_mbps,median_mbps,mean_mbps,p95_mbps
+2,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,8.87,12.58,31.16
+3,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,6.26,33.04,188.76
+4,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,1.54,7.64,42.59
+5,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.12,4.75,6.83,14.77
+6,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.06,1.8,3.94,17.08
+7,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.06,3.47,9.05,46.04
+8,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.0,0.64,8.05,64.87
+9,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,2.37,10.07,24.96
+10,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,7.3,15.19,51.88
+11,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.06,7.24,34.93,204.31
+12,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.23,80.58,63.04,122.1
+13,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,0.66,0.87,2.2
+14,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.0,4.05,11.62,55.26
+15,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.06,13.29,17.55,44.07
+16,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.06,3.07,28.22,111.64
+17,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.0,7.47,60.6,187.88
+18,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",reno,0.0,1.51,3.46,13.39
+19,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic,0.0,0.66,5.4,29.43
+20,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",bbr,0.23,6.15,9.78,31.9
+21,"a400.speedtest.wobcom.de:5201 (Wolfsburg, DE)",cubic_tmult,0.06,0.98,42.18,220.2

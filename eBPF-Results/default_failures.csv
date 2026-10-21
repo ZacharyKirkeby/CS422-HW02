@@ -1,0 +1,2 @@
+destination,reason
+speedtest.sin1.sg.leaseweb.net:5201,Connection closed while receiving from control socket: [Errno 104] Connection reset by peer

@@ -1,0 +1,10 @@
+destination,algorithm,repetition,reason
+109.61.94.65:5201,reno,1,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,bbr,1,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,cubic,2,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,cubic_tmult,2,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,bbr,3,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,cubic,3,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,reno,4,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,reno,5,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
+109.61.94.65:5201,bbr,5,Failed to connect control socket to 109.61.94.65:5201: [Errno 111] Connection refused
